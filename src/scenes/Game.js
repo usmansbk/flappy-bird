@@ -8,6 +8,8 @@ const GROUND = 'ground';
 const BACKGROUND = 'background';
 const BIRD = 'bird';
 const PIPE = 'pipe';
+const FLAP = 'flap';
+const GLIDE = 'glide';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -26,12 +28,19 @@ export default class GameScene extends Phaser.Scene {
     this.add.image(165, 568, PIPE);
     const ground = this.add.image(165, 568, GROUND);
     ground.setScale(1.5, 1);
-    const player = this.createPlayer();
+    this.player = this.createPlayer();
 
     this.physics.add.existing(ground, true);
-    this.physics.add.collider(player, ground);
+    this.physics.add.collider(this.player, ground);
 
     this.cursors = this.input.keyboard.createCursorKeys();
+  }
+
+  update() {
+    if (this.cursors.space.isDown) {
+      this.player.setVelocityY(-160);
+      this.player.anims.play(FLAP, true);
+    }
   }
 
   createPlatforms() {
@@ -47,10 +56,16 @@ export default class GameScene extends Phaser.Scene {
     player.setCollideWorldBounds(true);
 
     this.anims.create({
-      key: 'flap',
+      key: FLAP,
       frames: this.anims.generateFrameNumbers(BIRD, { start: 0, end: 2 }),
       frameRate: 10,
       repeat: -1,
+    });
+
+    this.anims.create({
+      key: GLIDE,
+      frames: [{ key: BIRD, frame: 0 }],
+      frameRate: 20,
     });
 
     return player;
