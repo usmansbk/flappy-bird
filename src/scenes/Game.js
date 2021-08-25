@@ -30,13 +30,13 @@ export default class GameScene extends Phaser.Scene {
     this.createBackground();
     this.createPipe();
 
-    const ground = this.createGround();
+    this.ground = this.createGround();
     this.player = this.createPlayer();
 
     this.createMessage();
 
-    this.physics.add.existing(ground, true);
-    this.physics.add.collider(this.player, ground);
+    this.physics.add.existing(this.ground, true);
+    this.physics.add.collider(this.player, this.ground);
 
     this.cursors = this.input.keyboard.createCursorKeys();
   }
@@ -46,6 +46,8 @@ export default class GameScene extends Phaser.Scene {
       this.player.setVelocityY(-160);
       this.player.anims.play(FLAP, true);
     }
+
+    this.ground.tilePositionX += 1;
   }
 
   createBackground() {
@@ -84,7 +86,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   createGround() {
-    const ground = this.add.image(165, 568, GROUND);
+    const ground = this.add.tileSprite(165, 568, 336, 112, GROUND);
     ground.setScale(1.5, 1);
 
     return ground;
