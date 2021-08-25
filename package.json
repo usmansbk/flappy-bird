@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "favicons-webpack-plugin": "^5.0.2",
-    "phaser": "^3.55.2"
+    "phaser": "^3.55.2",
+    "phaser-webpack-loader": "^2.0.0"
   }
 }
