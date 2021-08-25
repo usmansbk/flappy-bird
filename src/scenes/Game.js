@@ -82,7 +82,7 @@ export default class GameScene extends Phaser.Scene {
     const plaforms = this.physics.add.staticGroup();
 
     const { width, height } = this.scale;
-    plaforms.create(Math.round(width * 0.5), height * 0.5, BACKGROUND).setScale(1.5).refreshBody();
+    plaforms.create(width * 0.5, height * 0.5, BACKGROUND).setScale(1.5).refreshBody();
 
     return plaforms;
   }
