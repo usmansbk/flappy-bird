@@ -21,6 +21,7 @@ export default class GameScene extends Phaser.Scene {
   create() {
     this.createPlatforms();
     this.add.image(165, 568, GROUND);
+    this.createPlayer();
   }
 
   createPlatforms() {
@@ -29,5 +30,19 @@ export default class GameScene extends Phaser.Scene {
     plaforms.create(200, 300, BACKGROUND).setScale(1.5).refreshBody();
 
     return plaforms;
+  }
+
+  createPlayer() {
+    const player = this.physics.add.sprite(100, 450, BIRD);
+    player.setCollideWorldBounds(true);
+
+    this.anims.create({
+      key: 'flap',
+      frames: this.anims.generateFrameNumbers(BIRD, { start: 0, end: 2 }),
+      frameRate: 10,
+      repeat: -1,
+    });
+
+    return player;
   }
 }
