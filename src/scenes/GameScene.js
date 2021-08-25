@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import Zero from '../assets/sprites/0.png';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -6,7 +7,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('0', '/assets/sprites/0.png');
+    this.load.image('0', Zero);
   }
 
   create() {
