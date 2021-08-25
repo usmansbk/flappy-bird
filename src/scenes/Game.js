@@ -18,6 +18,10 @@ const PIPE_GAP_LENGTH = 175;
 const PIPE_PAIRS = 3;
 const GROUND_HEIGHT = 112;
 const GROUND_WIDTH = 336;
+const FRAME_RATE = 10;
+const BIRD_GRAVITY = 1000;
+const BIRD_VELOCITY = -350;
+const GROUND_VELOCITY = 1.5;
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -40,7 +44,7 @@ export default class GameScene extends Phaser.Scene {
     this.player = this.createPlayer();
     this.message = this.createMessage();
 
-    this.player.setGravityY(1000);
+    this.player.setGravityY(BIRD_GRAVITY);
 
     this.physics.add.existing(this.ground, true);
     this.physics.add.collider(this.player, this.ground);
@@ -54,11 +58,11 @@ export default class GameScene extends Phaser.Scene {
       this.flap();
     }
 
-    this.ground.tilePositionX += 1.5;
+    this.ground.tilePositionX += GROUND_VELOCITY;
   }
 
   flap() {
-    this.player.setVelocityY(-350);
+    this.player.setVelocityY(BIRD_VELOCITY);
     this.player.anims.play(FLAP, true);
   }
 
@@ -79,14 +83,14 @@ export default class GameScene extends Phaser.Scene {
     this.anims.create({
       key: FLAP,
       frames: this.anims.generateFrameNumbers(BIRD, { start: 0, end: 2 }),
-      frameRate: 10,
+      frameRate: FRAME_RATE,
       repeat: -1,
     });
 
     this.anims.create({
       key: GLIDE,
       frames: [{ key: BIRD, frame: 0 }],
-      frameRate: 20,
+      frameRate: FRAME_RATE,
     });
 
     return player;
