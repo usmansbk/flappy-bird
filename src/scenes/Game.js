@@ -32,8 +32,7 @@ export default class GameScene extends Phaser.Scene {
 
     this.ground = this.createGround();
     this.player = this.createPlayer();
-
-    this.createMessage();
+    this.message = this.createMessage();
 
     this.physics.add.existing(this.ground, true);
     this.physics.add.collider(this.player, this.ground);
@@ -82,7 +81,7 @@ export default class GameScene extends Phaser.Scene {
   createMessage() {
     const { width, height } = this.scale;
 
-    this.message = this.add.image(width * 0.5, height * 0.5, MESSAGE);
+    return this.add.image(width * 0.5, height * 0.5, MESSAGE);
   }
 
   createGround() {
