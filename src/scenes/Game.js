@@ -51,12 +51,6 @@ export default class GameScene extends Phaser.Scene {
       repeat: -1,
     });
 
-    this.anims.create({
-      key: 'glide',
-      frames: [{ key: BIRD, frame: 1 }],
-      frameRate: 20,
-    });
-
     return player;
   }
 }
