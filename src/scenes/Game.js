@@ -47,7 +47,7 @@ export default class GameScene extends Phaser.Scene {
       this.player.anims.play(FLAP, true);
     }
 
-    this.ground.tilePositionX += 1;
+    this.ground.tilePositionX += 1.5;
   }
 
   createBackground() {
