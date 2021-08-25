@@ -14,6 +14,8 @@ const GLIDE = 'glide';
 const MESSAGE = 'message';
 const PIPE_HEIGHT = 320;
 const PIPE_GAP_HEIGHT = 100;
+const PIPE_GAP_LENGTH = 175;
+const PIPE_PAIRS = 3;
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -30,8 +32,8 @@ export default class GameScene extends Phaser.Scene {
 
   create() {
     this.createBackground();
-    this.createPipes();
 
+    this.pipes = this.createPipes();
     this.ground = this.createGround();
     this.player = this.createPlayer();
     this.message = this.createMessage();
@@ -101,14 +103,22 @@ export default class GameScene extends Phaser.Scene {
     return ground;
   }
 
-  createPipes(x = 200) {
+  createPipes() {
     const y = 0;
+    const pipes = this.physics.add.staticGroup();
 
-    const top = this.add.image(x, y, PIPE).setOrigin(0, 0);
-    top.flipY = true;
+    for (let i = 0; i < PIPE_PAIRS; i += 1) {
+      const deltaX = i * PIPE_GAP_LENGTH;
+      const top = this.add.image(deltaX, y, PIPE).setOrigin(0, 0);
+      top.flipY = true;
 
-    const bottom = this.add.image(x, y + PIPE_GAP_HEIGHT + PIPE_HEIGHT, PIPE).setOrigin(0, 0);
+      const bottom = this.add.image(deltaX, y + PIPE_GAP_HEIGHT + PIPE_HEIGHT, PIPE)
+        .setOrigin(0, 0);
 
-    return [top, bottom];
+      pipes.add(top);
+      pipes.add(bottom);
+    }
+
+    return pipes;
   }
 }
