@@ -28,11 +28,13 @@ export default class GameScene extends Phaser.Scene {
 
   create() {
     this.createBackground();
-    this.createPipe();
+    this.createPipes();
 
     this.ground = this.createGround();
     this.player = this.createPlayer();
     this.message = this.createMessage();
+
+    this.player.setGravityY(1000);
 
     this.physics.add.existing(this.ground, true);
     this.physics.add.collider(this.player, this.ground);
@@ -43,11 +45,15 @@ export default class GameScene extends Phaser.Scene {
   update() {
     if (this.cursors.space.isDown) {
       this.message.visible = false;
-      this.player.setVelocityY(-160);
-      this.player.anims.play(FLAP, true);
+      this.flap();
     }
 
     this.ground.tilePositionX += 1.5;
+  }
+
+  flap() {
+    this.player.setVelocityY(-350);
+    this.player.anims.play(FLAP, true);
   }
 
   createBackground() {
@@ -60,7 +66,8 @@ export default class GameScene extends Phaser.Scene {
   }
 
   createPlayer() {
-    const player = this.physics.add.sprite(200, 300, BIRD);
+    const { width, height } = this.scale;
+    const player = this.physics.add.sprite(width * 0.4, height * 0.5, BIRD);
     player.setCollideWorldBounds(true);
 
     this.anims.create({
@@ -82,7 +89,7 @@ export default class GameScene extends Phaser.Scene {
   createMessage() {
     const { width, height } = this.scale;
 
-    return this.add.image(width * 0.5, height * 0.5, MESSAGE);
+    return this.add.image(width * 0.5, height * 0.4, MESSAGE);
   }
 
   createGround() {
@@ -92,9 +99,10 @@ export default class GameScene extends Phaser.Scene {
     return ground;
   }
 
-  createPipe() {
-    const pipe = this.add.image(165, 568, PIPE);
+  createPipes() {
+    const top = this.physics.add.staticGroup();
+    const bottom = this.physics.add.staticGroup();
 
-    return pipe;
+    return [top, bottom];
   }
 }
