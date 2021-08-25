@@ -22,6 +22,7 @@ const FRAME_RATE = 10;
 const BIRD_GRAVITY = 1000;
 const BIRD_VELOCITY = -350;
 const GROUND_VELOCITY = 1.5;
+const FLAP_ANGLE = 25;
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -63,6 +64,9 @@ export default class GameScene extends Phaser.Scene {
       this.message.visible = false;
       this.player.setVelocityY(BIRD_VELOCITY);
       this.player.anims.play(FLAP, true);
+      this.player.angle = -FLAP_ANGLE;
+    } else {
+      this.player.angle = 0;
     }
   }
 
