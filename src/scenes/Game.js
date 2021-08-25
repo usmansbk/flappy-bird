@@ -2,10 +2,12 @@ import Phaser from 'phaser';
 import Base from '../assets/sprites/base.png';
 import Background from '../assets/sprites/background.png';
 import Bird from '../assets/sprites/bird.png';
+import Pipe from '../assets/sprites/pipe.png';
 
 const GROUND = 'ground';
 const BACKGROUND = 'background';
 const BIRD = 'bird';
+const PIPE = 'pipe';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -15,13 +17,19 @@ export default class GameScene extends Phaser.Scene {
   preload() {
     this.load.image(GROUND, Base);
     this.load.image(BACKGROUND, Background);
+    this.load.image(PIPE, Pipe);
     this.load.spritesheet(BIRD, Bird, { frameWidth: 34, frameHeight: 24 });
   }
 
   create() {
     this.createPlatforms();
-    this.add.image(165, 568, GROUND);
-    this.createPlayer();
+    this.add.image(165, 568, PIPE);
+    const ground = this.add.image(165, 568, GROUND);
+    ground.setScale(1.5, 1);
+    const player = this.createPlayer();
+
+    this.physics.add.existing(ground, true);
+    this.physics.add.collider(player, ground);
   }
 
   createPlatforms() {
@@ -33,7 +41,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   createPlayer() {
-    const player = this.physics.add.sprite(100, 450, BIRD);
+    const player = this.physics.add.sprite(100, 300, BIRD);
     player.setCollideWorldBounds(true);
 
     this.anims.create({
@@ -41,6 +49,12 @@ export default class GameScene extends Phaser.Scene {
       frames: this.anims.generateFrameNumbers(BIRD, { start: 0, end: 2 }),
       frameRate: 10,
       repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'glide',
+      frames: [{ key: BIRD, frame: 1 }],
+      frameRate: 20,
     });
 
     return player;
