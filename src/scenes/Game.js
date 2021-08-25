@@ -100,8 +100,10 @@ export default class GameScene extends Phaser.Scene {
   }
 
   createPipes() {
-    const top = this.physics.add.staticGroup();
-    const bottom = this.physics.add.staticGroup();
+    const top = this.add.image(200, 0, PIPE);
+    top.flipY = true;
+
+    const bottom = this.add.image(200, 568, PIPE);
 
     return [top, bottom];
   }
