@@ -46,5 +46,8 @@
     "webpack": "^5.44.0",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2"
+  },
+  "dependencies": {
+    "phaser": "^3.55.2"
   }
 }
