@@ -3,6 +3,7 @@ import Base from '../assets/sprites/base.png';
 import Background from '../assets/sprites/background.png';
 import Bird from '../assets/sprites/bird.png';
 import Pipe from '../assets/sprites/pipe.png';
+import Message from '../assets/sprites/message.png';
 
 const GROUND = 'ground';
 const BACKGROUND = 'background';
@@ -10,6 +11,7 @@ const BIRD = 'bird';
 const PIPE = 'pipe';
 const FLAP = 'flap';
 const GLIDE = 'glide';
+const MESSAGE = 'message';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -20,6 +22,7 @@ export default class GameScene extends Phaser.Scene {
     this.load.image(GROUND, Base);
     this.load.image(BACKGROUND, Background);
     this.load.image(PIPE, Pipe);
+    this.load.image(MESSAGE, Message);
     this.load.spritesheet(BIRD, Bird, { frameWidth: 34, frameHeight: 24 });
   }
 
@@ -29,6 +32,8 @@ export default class GameScene extends Phaser.Scene {
     const ground = this.add.image(165, 568, GROUND);
     ground.setScale(1.5, 1);
     this.player = this.createPlayer();
+
+    this.add.image(200, 300, MESSAGE);
 
     this.physics.add.existing(ground, true);
     this.physics.add.collider(this.player, ground);
@@ -52,7 +57,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   createPlayer() {
-    const player = this.physics.add.sprite(100, 300, BIRD);
+    const player = this.physics.add.sprite(200, 300, BIRD);
     player.setCollideWorldBounds(true);
 
     this.anims.create({
