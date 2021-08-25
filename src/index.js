@@ -3,6 +3,7 @@ import GameScene from './scenes/Game.js';
 
 const config = {
   type: Phaser.AUTO,
+  autoCenter: true,
   width: 400,
   height: 600,
   physics: {
