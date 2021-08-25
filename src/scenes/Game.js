@@ -21,7 +21,7 @@ const GROUND_HEIGHT = 112;
 const FRAME_RATE = 10;
 const BIRD_GRAVITY = 1000;
 const BIRD_VELOCITY = -350;
-const GROUND_VELOCITY = 1.5;
+const GAME_SPEED = 1.5;
 const FLAP_ANGLE = 25;
 
 export default class GameScene extends Phaser.Scene {
@@ -71,11 +71,11 @@ export default class GameScene extends Phaser.Scene {
   }
 
   moveGround() {
-    this.ground.tilePositionX += GROUND_VELOCITY;
+    this.ground.tilePositionX += GAME_SPEED;
   }
 
   movePipes() {
-    this.pipes.incX(-GROUND_VELOCITY);
+    this.pipes.incX(-GAME_SPEED);
   }
 
   createBackground() {
