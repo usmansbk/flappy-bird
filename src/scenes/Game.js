@@ -10,7 +10,6 @@ const BACKGROUND = 'background';
 const BIRD = 'bird';
 const PIPE = 'pipe';
 const FLAP = 'flap';
-const GLIDE = 'glide';
 const MESSAGE = 'message';
 // const PIPE_WIDTH = 52;
 const PIPE_HEIGHT = 320;
@@ -99,12 +98,6 @@ export default class GameScene extends Phaser.Scene {
       repeat: -1,
     });
 
-    this.anims.create({
-      key: GLIDE,
-      frames: [{ key: BIRD, frame: 0 }],
-      frameRate: FRAME_RATE,
-    });
-
     return player;
   }
 
@@ -124,11 +117,12 @@ export default class GameScene extends Phaser.Scene {
   }
 
   createPipes() {
+    const { width } = this.scale;
     const pipes = this.physics.add.staticGroup();
 
     for (let i = 0; i < PIPE_PAIRS; i += 1) {
       const y = Phaser.Math.Between(-PIPE_HEIGHT * 0.6, 0);
-      const deltaX = i * PIPE_GAP_LENGTH;
+      const deltaX = (width + PIPE_GAP_LENGTH) + (i * PIPE_GAP_LENGTH);
       const top = this.add.image(deltaX, y, PIPE).setOrigin(0, 0);
       top.flipY = true;
 
