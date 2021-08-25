@@ -27,13 +27,13 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create() {
-    this.createPlatforms();
-    this.add.image(165, 568, PIPE);
-    const ground = this.add.image(165, 568, GROUND);
-    ground.setScale(1.5, 1);
+    this.createBackground();
+    this.createPipe();
+
+    const ground = this.createGround();
     this.player = this.createPlayer();
 
-    this.add.image(200, 300, MESSAGE);
+    this.createMessage();
 
     this.physics.add.existing(ground, true);
     this.physics.add.collider(this.player, ground);
@@ -48,10 +48,11 @@ export default class GameScene extends Phaser.Scene {
     }
   }
 
-  createPlatforms() {
+  createBackground() {
     const plaforms = this.physics.add.staticGroup();
 
-    plaforms.create(200, 300, BACKGROUND).setScale(1.5).refreshBody();
+    const { width, height } = this.scale;
+    plaforms.create(width * 0.5, height * 0.5, BACKGROUND).setScale(1.5).refreshBody();
 
     return plaforms;
   }
@@ -74,5 +75,24 @@ export default class GameScene extends Phaser.Scene {
     });
 
     return player;
+  }
+
+  createMessage() {
+    const { width, height } = this.scale;
+
+    this.message = this.add.image(width * 0.5, height * 0.5, MESSAGE);
+  }
+
+  createGround() {
+    const ground = this.add.image(165, 568, GROUND);
+    ground.setScale(1.5, 1);
+
+    return ground;
+  }
+
+  createPipe() {
+    const pipe = this.add.image(165, 568, PIPE);
+
+    return pipe;
   }
 }
