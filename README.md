@@ -1,22 +1,18 @@
-# Project Name
+# Flappy Bird
 
-![Microverse](https://img.shields.io/badge/Microverse-blueviolet)
+> A clone of the Flappy Bird mobile game
 
-> One paragraph statement about the project.
+![screenshot](./app_screenshot.png)
 
-![screenshot](./app_screenshot.jpeg)
-
-Additional description about the project and its features.
+Flappy Bird is a side-scroller where the player controls a bird, attempting to fly between columns of green pipes without hitting them.
 
 ## Built With
 
-- HTML
-- CSS
-- JavaScript
+- Phaser 3
 
 ## Live Demo
 
-[Live Demo Link](https://usmansbk.github.io/repo_name)
+[Live Demo Link](https://usmansbk.github.io/flappy-bird)
 
 ## Getting Started
 
@@ -29,8 +25,8 @@ To get a local copy up and running follow these simple example steps.
 ### Setup
 
 ```bash
-git clone https://github.com/usmansbk/repo_name.git
-cd ./repo_name
+git clone https://github.com/usmansbk/flappy-bird.git
+cd ./flappy-bird
 ```
 
 ### Install
@@ -76,7 +72,7 @@ Give a ⭐️ if you like this project!
 
 ## Acknowledgments
 
-- Microverse
+- [Flappy Bird mobile game by Dong Nguyen](https://en.wikipedia.org/wiki/Flappy_Bird)
 
 ## 📝 License
 
