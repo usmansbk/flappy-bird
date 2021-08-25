@@ -13,15 +13,15 @@ const FLAP = 'flap';
 const GLIDE = 'glide';
 const MESSAGE = 'message';
 const PIPE_HEIGHT = 320;
-const PIPE_GAP_HEIGHT = 100;
-const PIPE_GAP_LENGTH = 175;
+const PIPE_GAP_HEIGHT = 120;
+const PIPE_GAP_LENGTH = 180;
 const PIPE_PAIRS = 3;
 const GROUND_HEIGHT = 112;
 const GROUND_WIDTH = 336;
 const FRAME_RATE = 10;
 const BIRD_GRAVITY = 1000;
 const BIRD_VELOCITY = -350;
-const GROUND_VELOCITY = 1;
+const GROUND_VELOCITY = 1.5;
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -53,18 +53,17 @@ export default class GameScene extends Phaser.Scene {
   }
 
   update() {
-    if (this.cursors.space.isDown) {
-      this.message.visible = false;
-      this.flap();
-    }
-
+    this.flap();
     this.moveGround();
     this.movePipes();
   }
 
   flap() {
-    this.player.setVelocityY(BIRD_VELOCITY);
-    this.player.anims.play(FLAP, true);
+    if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
+      this.message.visible = false;
+      this.player.setVelocityY(BIRD_VELOCITY);
+      this.player.anims.play(FLAP, true);
+    }
   }
 
   moveGround() {
