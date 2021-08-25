@@ -30,6 +30,8 @@ export default class GameScene extends Phaser.Scene {
 
     this.physics.add.existing(ground, true);
     this.physics.add.collider(player, ground);
+
+    this.cursors = this.input.keyboard.createCursorKeys();
   }
 
   createPlatforms() {
