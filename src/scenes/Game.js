@@ -12,12 +12,12 @@ const PIPE = 'pipe';
 const FLAP = 'flap';
 const GLIDE = 'glide';
 const MESSAGE = 'message';
+// const PIPE_WIDTH = 52;
 const PIPE_HEIGHT = 320;
 const PIPE_GAP_HEIGHT = 120;
 const PIPE_GAP_LENGTH = 180;
 const PIPE_PAIRS = 3;
 const GROUND_HEIGHT = 112;
-const GROUND_WIDTH = 336;
 const FRAME_RATE = 10;
 const BIRD_GRAVITY = 1000;
 const BIRD_VELOCITY = -350;
@@ -118,8 +118,7 @@ export default class GameScene extends Phaser.Scene {
     const { width, height } = this.scale;
     const x = width * 0.5;
     const y = height - GROUND_HEIGHT * 0.3;
-    const ground = this.add.tileSprite(x, y, GROUND_WIDTH, GROUND_HEIGHT, GROUND);
-    ground.setScale(1.5, 1);
+    const ground = this.add.tileSprite(x, y, width, GROUND_HEIGHT, GROUND);
 
     return ground;
   }
