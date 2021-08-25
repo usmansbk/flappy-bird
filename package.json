@@ -1,0 +1,50 @@
+{
+  "name": "webpack-boilerplate",
+  "version": "1.0.0",
+  "description": "Simple yet powerful webpack boilerplate.",
+  "private": true,
+  "scripts": {
+    "test": "jest --coverage",
+    "start": "webpack serve --open",
+    "build": "webpack",
+    "webhint": "hint .",
+    "stylelint": "stylelint \"**/*.{css,scss}\"",
+    "eslint": "eslint .",
+    "lint": "npm run webhint && npm run stylelint && npm run eslint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/usmansbk/webpack-boilerplate.git"
+  },
+  "keywords": [
+    "webpack",
+    "js",
+    "es6",
+    "es2015"
+  ],
+  "author": "Babakolo Usman Suleiman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/usmansbk/webpack-boilerplate/issues"
+  },
+  "homepage": "https://github.com/usmansbk/webpack-boilerplate#readme",
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.14.5",
+    "babel-eslint": "^10.1.0",
+    "css-loader": "^5.2.6",
+    "eslint": "^7.30.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4",
+    "hint": "^6.1.4",
+    "html-webpack-plugin": "^5.3.2",
+    "jest": "^27.0.6",
+    "style-loader": "^3.0.0",
+    "stylelint": "^13.13.1",
+    "stylelint-config-standard": "^21.0.0",
+    "stylelint-csstree-validator": "^1.9.0",
+    "stylelint-scss": "^3.19.0",
+    "webpack": "^5.44.0",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^3.11.2"
+  }
+}
