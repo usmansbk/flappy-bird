@@ -58,12 +58,17 @@ export default class GameScene extends Phaser.Scene {
       this.flap();
     }
 
+    this.movePipes();
     this.ground.tilePositionX += GROUND_VELOCITY;
   }
 
   flap() {
     this.player.setVelocityY(BIRD_VELOCITY);
     this.player.anims.play(FLAP, true);
+  }
+
+  movePipes() {
+    this.pipes.incX(-GROUND_VELOCITY);
   }
 
   createBackground() {
