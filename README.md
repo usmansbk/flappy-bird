@@ -1,6 +1,6 @@
 # Flappy Bird
 
-> A clone of the Flappy Bird mobile game
+> Flappy Bird mobile game clone for web
 
 ![screenshot](./app_screenshot.png)
 
