@@ -65,8 +65,8 @@ export default class GameScene extends Phaser.Scene {
       this.player.setVelocityY(BIRD_VELOCITY);
       this.player.anims.play(FLAP, true);
       this.player.angle = -FLAP_ANGLE;
-    } else {
-      this.player.angle = 0;
+    } else if (!this.player.body.touching.down) {
+      this.player.angle += 2;
     }
   }
 
