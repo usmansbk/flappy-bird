@@ -42,6 +42,7 @@ export default class GameScene extends Phaser.Scene {
 
   update() {
     if (this.cursors.space.isDown) {
+      this.message.visible = false;
       this.player.setVelocityY(-160);
       this.player.anims.play(FLAP, true);
     }
