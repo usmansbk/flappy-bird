@@ -16,6 +16,8 @@ const PIPE_HEIGHT = 320;
 const PIPE_GAP_HEIGHT = 100;
 const PIPE_GAP_LENGTH = 175;
 const PIPE_PAIRS = 3;
+const GROUND_HEIGHT = 112;
+const GROUND_WIDTH = 336;
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -97,7 +99,10 @@ export default class GameScene extends Phaser.Scene {
   }
 
   createGround() {
-    const ground = this.add.tileSprite(165, 568, 336, 112, GROUND);
+    const { width, height } = this.scale;
+    const x = width * 0.5;
+    const y = height - GROUND_HEIGHT * 0.3;
+    const ground = this.add.tileSprite(x, y, GROUND_WIDTH, GROUND_HEIGHT, GROUND);
     ground.setScale(1.5, 1);
 
     return ground;
