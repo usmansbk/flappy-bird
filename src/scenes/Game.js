@@ -69,7 +69,7 @@ export default class GameScene extends Phaser.Scene {
 
   createPlayer() {
     const { width, height } = this.scale;
-    const player = this.physics.add.sprite(width * 0.4, height * 0.5, BIRD);
+    const player = this.physics.add.sprite(width * 0.3, height * 0.5, BIRD);
     player.setCollideWorldBounds(true);
 
     this.anims.create({
@@ -91,7 +91,7 @@ export default class GameScene extends Phaser.Scene {
   createMessage() {
     const { width, height } = this.scale;
 
-    return this.add.image(width * 0.5, height * 0.4, MESSAGE);
+    return this.add.image(width * 0.5, height * 0.3, MESSAGE);
   }
 
   createGround() {
