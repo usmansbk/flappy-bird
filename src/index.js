@@ -1,3 +1,3 @@
-import app from './js/app.js';
+import game from './js/game.js';
 
-window.addEventListener('load', () => app());
+window.addEventListener('load', () => game());
