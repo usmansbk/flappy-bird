@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "test": "jest --coverage",
-    "start": "webpack serve --open",
+    "start": "serve dist",
+    "dev": "webpack serve --open",
     "build": "webpack",
     "webhint": "hint .",
     "stylelint": "stylelint \"**/*.{css,scss}\"",
@@ -50,6 +51,7 @@
   "dependencies": {
     "favicons-webpack-plugin": "^5.0.2",
     "phaser": "^3.55.2",
-    "phaser-webpack-loader": "^2.0.0"
+    "phaser-webpack-loader": "^2.0.0",
+    "serve": "^12.0.0"
   }
 }
