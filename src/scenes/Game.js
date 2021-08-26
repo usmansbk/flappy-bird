@@ -113,14 +113,12 @@ export default class GameScene extends Phaser.Scene {
   start() {
     this.state = PLAYING_STATE;
     this.message.visible = false;
+    this.player.body.allowGravity = true;
   }
 
   stop() {
-    if (!this.player.body.touching.down) {
-      this.player.angle += DECLINE_ANGLE_DELTA;
-    } else {
-      this.player.anims.stop();
-    }
+    this.player.angle = ELEVATION_ANGLE * 2;
+    this.player.anims.stop();
   }
 
   flap() {
@@ -152,7 +150,7 @@ export default class GameScene extends Phaser.Scene {
     const player = this.physics.add.sprite(width * 0.3, height * 0.5, BIRD);
     player.setCollideWorldBounds(true);
     player.setGravityY(BIRD_GRAVITY);
-    // player.body.allowGravity = false;
+    player.body.allowGravity = false;
 
     this.anims.create({
       key: FLAP,
