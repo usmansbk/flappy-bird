@@ -67,6 +67,16 @@ export default class GameScene extends Phaser.Scene {
     this.load.image(MESSAGE, Message);
     this.load.image(GAME_OVER, GameOver);
     this.load.spritesheet(BIRD, Bird, { frameWidth: 34, frameHeight: 24 });
+    this.load.image('0', Zero);
+    this.load.image('1', One);
+    this.load.image('2', Two);
+    this.load.image('3', Three);
+    this.load.image('4', Four);
+    this.load.image('5', Five);
+    this.load.image('6', Six);
+    this.load.image('7', Seven);
+    this.load.image('8', Eight);
+    this.load.image('9', Nine);
   }
 
   create() {
