@@ -20,7 +20,8 @@ const FRAME_RATE = 10;
 const BIRD_GRAVITY = 1000;
 const BIRD_VELOCITY = -350;
 const GAME_SPEED = 1.8;
-const FLAP_ANGLE = 25;
+const ELEVATION_ANGLE = 25;
+const DECLINE_ANGLE_DELTA = 2;
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -53,7 +54,6 @@ export default class GameScene extends Phaser.Scene {
   update() {
     this.flap();
     this.moveGround();
-    this.movePipes();
   }
 
   flap() {
@@ -61,17 +61,14 @@ export default class GameScene extends Phaser.Scene {
       this.message.visible = false;
       this.player.setVelocityY(BIRD_VELOCITY);
       this.player.anims.play(FLAP, true);
-      this.player.angle = -FLAP_ANGLE;
+      this.player.angle = -ELEVATION_ANGLE;
     } else if (!this.player.body.touching.down) {
-      this.player.angle += 2;
+      this.player.angle += DECLINE_ANGLE_DELTA;
     }
   }
 
   moveGround() {
     this.ground.tilePositionX += GAME_SPEED;
-  }
-
-  movePipes() {
     this.pipes.incX(-GAME_SPEED);
   }
 
