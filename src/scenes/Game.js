@@ -48,6 +48,7 @@ export default class GameScene extends Phaser.Scene {
 
     this.physics.add.existing(this.ground, true);
     this.physics.add.collider(this.player, this.ground);
+    this.physics.add.collider(this.player, this.pipes);
 
     this.cursors = this.input.keyboard.createCursorKeys();
   }
