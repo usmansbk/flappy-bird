@@ -47,8 +47,11 @@ export default class GameScene extends Phaser.Scene {
 
     this.physics.add.existing(this.ground, true);
     this.physics.add.collider(this.player, this.ground);
-    this.physics.add.collider(this.player, this.pipes);
-    this.physics.add.overlap(this.player, this.pipes, () => null, null, this);
+    this.physics.add.collider(this.player, this.pipes.topPipes);
+    this.physics.add.collider(this.player, this.pipes.bottomPipes);
+
+    this.physics.add.overlap(this.player, this.pipes.topPipes, () => null, null, this);
+    this.physics.add.overlap(this.player, this.pipes.bottomPipes, () => null, null, this);
 
     this.cursors = this.input.keyboard.createCursorKeys();
   }
@@ -72,7 +75,8 @@ export default class GameScene extends Phaser.Scene {
 
   moveGround() {
     this.ground.tilePositionX += GAME_SPEED;
-    this.pipes.incX(-GAME_SPEED);
+    this.pipes.topPipes.incX(-GAME_SPEED);
+    this.pipes.bottomPipes.incX(-GAME_SPEED);
   }
 
   createBackground() {
@@ -114,7 +118,9 @@ export default class GameScene extends Phaser.Scene {
 
   createPipes() {
     const { width } = this.scale;
-    const pipes = this.physics.add.group();
+    const topPipes = this.physics.add.group();
+    const bottomPipes = this.physics.add.group();
+
     const offsetX = width + PIPE_GAP_LENGTH;
 
     for (let i = 0; i < PIPE_PAIRS; i += 1) {
@@ -125,15 +131,17 @@ export default class GameScene extends Phaser.Scene {
       const top = this.physics.add.image(deltaX, y, PIPE);
       top.flipY = true;
       top.body.moves = false;
-      pipes.add(top);
+      topPipes.add(top);
 
       const bottom = this.physics.add.image(deltaX, bottomY, PIPE);
       bottom.body.moves = false;
-      pipes.add(bottom);
+      bottomPipes.add(bottom);
     }
 
-    pipes.setOrigin(0, 0);
-    return pipes;
+    topPipes.setOrigin(0, 0);
+    bottomPipes.setOrigin(0, 0);
+
+    return { topPipes, bottomPipes };
   }
 
   recyclePipes() {
