@@ -35,6 +35,7 @@ export default class GameScene extends Phaser.Scene {
   constructor() {
     super(SCENE_NAME);
     this.state = READY_STATE;
+    this.score = 0;
   }
 
   setReady() {
