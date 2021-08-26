@@ -123,8 +123,8 @@ export default class GameScene extends Phaser.Scene {
   }
 
   stop() {
-    this.player.angle = ELEVATION_ANGLE;
     this.player.anims.stop();
+    this.fall();
   }
 
   flap() {
@@ -133,8 +133,12 @@ export default class GameScene extends Phaser.Scene {
       this.player.anims.play(FLAP, true);
       this.player.angle = -ELEVATION_ANGLE;
     } else if (!this.player.body.touching.down) {
-      this.player.angle += DECLINE_ANGLE_DELTA;
+      this.fall();
     }
+  }
+
+  fall() {
+    this.player.angle += DECLINE_ANGLE_DELTA;
   }
 
   moveGround() {
