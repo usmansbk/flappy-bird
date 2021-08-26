@@ -104,9 +104,9 @@ export default class GameScene extends Phaser.Scene {
 
   onStart() {
     if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
-      this.setPlaying();
       this.readyMessage.visible = false;
       this.player.body.allowGravity = true;
+      this.setPlaying();
     }
   }
 
@@ -117,20 +117,10 @@ export default class GameScene extends Phaser.Scene {
 
   onRestart() {
     if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
-      this.setReady();
       this.gameoverMessage.visible = false;
-      const { width, height } = this.scale;
-      this.player.setPosition(width * 0.3, height * 0.5);
-
-      const topPipes = this.pipes.topPipes.getChildren();
-      const bottomPipes = this.pipes.bottomPipes.getChildren();
-
-      for (let i = 0; i < PIPE_PAIRS; i += 1) {
-        const top = topPipes[i];
-        const bottom = bottomPipes[i];
-
-        this.resetPipesPosition(top, bottom, i);
-      }
+      this.resetPlayer();
+      this.resetAllPipes();
+      this.setReady();
     }
   }
 
@@ -162,6 +152,11 @@ export default class GameScene extends Phaser.Scene {
   createBackground() {
     const { width, height } = this.scale;
     this.physics.add.staticImage(width * 0.5, height * 0.5, BACKGROUND).setScale(1.5).refreshBody();
+  }
+
+  resetPlayer() {
+    const { width, height } = this.scale;
+    this.player.setPosition(width * 0.3, height * 0.5);
   }
 
   createPlayer() {
@@ -240,6 +235,18 @@ export default class GameScene extends Phaser.Scene {
     }
 
     return { topPipes, bottomPipes };
+  }
+
+  resetAllPipes() {
+    const topPipes = this.pipes.topPipes.getChildren();
+    const bottomPipes = this.pipes.bottomPipes.getChildren();
+
+    for (let i = 0; i < PIPE_PAIRS; i += 1) {
+      const top = topPipes[i];
+      const bottom = bottomPipes[i];
+
+      this.resetPipesPosition(top, bottom, i);
+    }
   }
 
   resetPipesPosition(top, bottom, step = 0) {
