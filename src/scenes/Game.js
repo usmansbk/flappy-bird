@@ -75,8 +75,8 @@ export default class GameScene extends Phaser.Scene {
     this.pipes = this.createPipes();
     this.ground = this.createGround();
     this.player = this.createPlayer();
-    this.message = this.createMessage();
-    this.gameover = this.createGameOverMessage();
+    this.readyMessage = this.createReadyMessage();
+    this.gameoverMessage = this.createGameOverMessage();
 
     this.physics.add.existing(this.ground, true);
     this.physics.add.collider(this.player, this.ground, this.setGameOver, null, this);
@@ -92,11 +92,9 @@ export default class GameScene extends Phaser.Scene {
   update() {
     switch (this.state) {
       case READY_STATE: {
+        this.gameoverMessage.visible = false;
         this.moveGround();
-        this.gameover.visible = false;
-        if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
-          this.start();
-        }
+        this.start();
         break;
       }
       case PLAYING_STATE: {
@@ -107,7 +105,7 @@ export default class GameScene extends Phaser.Scene {
         break;
       }
       case GAME_OVER_STATE: {
-        this.gameover.visible = true;
+        this.gameoverMessage.visible = true;
         this.stop();
         break;
       }
@@ -117,15 +115,15 @@ export default class GameScene extends Phaser.Scene {
   }
 
   start() {
-    this.state = PLAYING_STATE;
-    this.message.visible = false;
-    this.player.body.allowGravity = true;
+    if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
+      this.state = PLAYING_STATE;
+      this.readyMessage.visible = false;
+      this.player.body.allowGravity = true;
+    }
   }
 
   stop() {
-    if (!this.player.body.touching.down) {
-      this.player.angle += DECLINE_ANGLE_DELTA;
-    }
+    this.player.angle = ELEVATION_ANGLE;
     this.player.anims.stop();
   }
 
@@ -170,7 +168,7 @@ export default class GameScene extends Phaser.Scene {
     return player;
   }
 
-  createMessage() {
+  createReadyMessage() {
     const { width, height } = this.scale;
 
     return this.add.image(width * 0.5, height * 0.4, MESSAGE);
