@@ -26,7 +26,7 @@ const GAME_SPEED = 1.8;
 const ELEVATION_ANGLE = 25;
 const FALL_ANGLE = 90;
 const DECLINE_ANGLE_DELTA = 2;
-const MIN_PIPE_HEIGHT = -PIPE_HEIGHT * 0.8;
+const MIN_PIPE_HEIGHT = -PIPE_HEIGHT * 0.75;
 const READY_STATE = 'ready-state';
 const PLAYING_STATE = 'playing-state';
 const GAME_OVER_STATE = 'gameover-state';
@@ -47,18 +47,6 @@ export default class GameScene extends Phaser.Scene {
 
   setGameOver() {
     this.state = GAME_OVER_STATE;
-  }
-
-  isReady() {
-    return this.state === READY_STATE;
-  }
-
-  isPlaying() {
-    return this.state === PLAYING_STATE;
-  }
-
-  isOver() {
-    return this.state === GAME_OVER_STATE;
   }
 
   preload() {
@@ -90,7 +78,8 @@ export default class GameScene extends Phaser.Scene {
   update() {
     switch (this.state) {
       case READY_STATE: {
-        this.gameoverMessage.visible = false;
+        this.readyMessage.visible = true;
+        this.player.anims.play(FLAP, true);
         this.moveGround();
         this.onStart();
         break;
@@ -105,7 +94,7 @@ export default class GameScene extends Phaser.Scene {
       case GAME_OVER_STATE: {
         this.gameoverMessage.visible = true;
         this.onStop();
-        this.onReset();
+        this.onRestart();
         break;
       }
       default:
@@ -115,7 +104,7 @@ export default class GameScene extends Phaser.Scene {
 
   onStart() {
     if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
-      this.state = PLAYING_STATE;
+      this.setPlaying();
       this.readyMessage.visible = false;
       this.player.body.allowGravity = true;
     }
@@ -126,10 +115,22 @@ export default class GameScene extends Phaser.Scene {
     this.fall();
   }
 
-  onReset() {
+  onRestart() {
     if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
+      this.setReady();
       this.gameoverMessage.visible = false;
-      this.state = PLAYING_STATE;
+      const { width, height } = this.scale;
+      this.player.setPosition(width * 0.3, height * 0.5);
+
+      const topPipes = this.pipes.topPipes.getChildren();
+      const bottomPipes = this.pipes.bottomPipes.getChildren();
+
+      for (let i = 0; i < PIPE_PAIRS; i += 1) {
+        const top = topPipes[i];
+        const bottom = bottomPipes[i];
+
+        this.resetPipesPosition(top, bottom, i);
+      }
     }
   }
 
@@ -183,13 +184,19 @@ export default class GameScene extends Phaser.Scene {
   createReadyMessage() {
     const { width, height } = this.scale;
 
-    return this.add.image(width * 0.5, height * 0.4, MESSAGE);
+    const message = this.add.image(width * 0.5, height * 0.4, MESSAGE);
+    message.visible = false;
+
+    return message;
   }
 
   createGameOverMessage() {
     const { width, height } = this.scale;
 
-    return this.add.image(width * 0.5, height * 0.4, GAME_OVER);
+    const message = this.add.image(width * 0.5, height * 0.4, GAME_OVER);
+    message.visible = false;
+
+    return message;
   }
 
   createGround() {
@@ -235,8 +242,9 @@ export default class GameScene extends Phaser.Scene {
     return { topPipes, bottomPipes };
   }
 
-  updatePipesPosition(top, bottom) {
-    const x = this.scale.width + PIPE_GAP_LENGTH;
+  resetPipesPosition(top, bottom, step = 0) {
+    const offsetX = this.scale.width + PIPE_GAP_LENGTH;
+    const x = offsetX + (step * PIPE_GAP_LENGTH);
     const y = Phaser.Math.Between(MIN_PIPE_HEIGHT, 0);
     const bottomY = y + PIPE_GAP_HEIGHT + PIPE_HEIGHT;
 
@@ -252,7 +260,7 @@ export default class GameScene extends Phaser.Scene {
       const x = bottom.getBounds().right;
       if (x < 0) {
         const top = this.pipes.topPipes.getChildren()[index];
-        this.updatePipesPosition(top, bottom);
+        this.resetPipesPosition(top, bottom);
       }
     });
   }
