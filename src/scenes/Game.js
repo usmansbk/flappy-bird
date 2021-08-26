@@ -26,7 +26,7 @@ const GAME_SPEED = 1.8;
 const ELEVATION_ANGLE = 25;
 const FALL_ANGLE = 90;
 const DECLINE_ANGLE_DELTA = 2;
-const MIN_PIPE_HEIGHT = -PIPE_HEIGHT * 0.8;
+const MIN_PIPE_HEIGHT = -PIPE_HEIGHT * 0.75;
 const READY_STATE = 'ready-state';
 const PLAYING_STATE = 'playing-state';
 const GAME_OVER_STATE = 'gameover-state';
@@ -47,18 +47,6 @@ export default class GameScene extends Phaser.Scene {
 
   setGameOver() {
     this.state = GAME_OVER_STATE;
-  }
-
-  isReady() {
-    return this.state === READY_STATE;
-  }
-
-  isPlaying() {
-    return this.state === PLAYING_STATE;
-  }
-
-  isOver() {
-    return this.state === GAME_OVER_STATE;
   }
 
   preload() {
@@ -116,9 +104,9 @@ export default class GameScene extends Phaser.Scene {
 
   onStart() {
     if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
+      this.setPlaying();
       this.readyMessage.visible = false;
       this.player.body.allowGravity = true;
-      this.state = PLAYING_STATE;
     }
   }
 
@@ -129,6 +117,7 @@ export default class GameScene extends Phaser.Scene {
 
   onRestart() {
     if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
+      this.setReady();
       this.gameoverMessage.visible = false;
       const { width, height } = this.scale;
       this.player.setPosition(width * 0.3, height * 0.5);
@@ -142,8 +131,6 @@ export default class GameScene extends Phaser.Scene {
 
         this.resetPipesPosition(top, bottom, i);
       }
-
-      this.state = READY_STATE;
     }
   }
 
