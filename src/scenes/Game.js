@@ -73,12 +73,8 @@ export default class GameScene extends Phaser.Scene {
   }
 
   createBackground() {
-    const plaforms = this.physics.add.staticGroup();
-
     const { width, height } = this.scale;
-    plaforms.create(width * 0.5, height * 0.5, BACKGROUND).setScale(1.5).refreshBody();
-
-    return plaforms;
+    this.physics.add.staticImage(width * 0.5, height * 0.5, BACKGROUND).setScale(1.5).refreshBody();
   }
 
   createPlayer() {
@@ -86,7 +82,7 @@ export default class GameScene extends Phaser.Scene {
     const player = this.physics.add.sprite(width * 0.3, height * 0.5, BIRD);
     player.setCollideWorldBounds(true);
     player.setGravityY(BIRD_GRAVITY);
-    player.body.allowGravity = false;
+    // player.body.allowGravity = false;
 
     this.anims.create({
       key: FLAP,
