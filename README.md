@@ -12,7 +12,7 @@ Flappy Bird is a side-scroller where the player controls a bird, attempting to f
 
 ## Live Demo
 
-[Live Demo Link](https://usmansbk.github.io/flappy-bird)
+[Live Demo Link](https://blissful-wiles-7bf90a.netlify.app/)
 
 ## Getting Started
 

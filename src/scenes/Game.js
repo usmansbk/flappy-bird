@@ -4,6 +4,7 @@ import Background from '../assets/sprites/background.png';
 import Bird from '../assets/sprites/bird.png';
 import Pipe from '../assets/sprites/pipe.png';
 import Message from '../assets/sprites/message.png';
+import GameOver from '../assets/sprites/gameover.png';
 
 const SCENE_NAME = 'game-scene';
 const GROUND = 'ground';
@@ -12,6 +13,7 @@ const BIRD = 'bird';
 const PIPE = 'bottom-pipe';
 const FLAP = 'flap';
 const MESSAGE = 'message';
+const GAME_OVER = 'gameover';
 const PIPE_HEIGHT = 320;
 const PIPE_GAP_HEIGHT = 120;
 const PIPE_GAP_LENGTH = 180;
@@ -22,12 +24,41 @@ const BIRD_GRAVITY = 1000;
 const BIRD_VELOCITY = -340;
 const GAME_SPEED = 1.8;
 const ELEVATION_ANGLE = 25;
+const FALL_ANGLE = 90;
 const DECLINE_ANGLE_DELTA = 2;
 const MIN_PIPE_HEIGHT = -PIPE_HEIGHT * 0.8;
+const READY_STATE = 'ready-state';
+const PLAYING_STATE = 'playing-state';
+const GAME_OVER_STATE = 'gameover-state';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
     super(SCENE_NAME);
+    this.state = READY_STATE;
+  }
+
+  setReady() {
+    this.state = READY_STATE;
+  }
+
+  setPlaying() {
+    this.state = PLAYING_STATE;
+  }
+
+  setGameOver() {
+    this.state = GAME_OVER_STATE;
+  }
+
+  isReady() {
+    return this.state === READY_STATE;
+  }
+
+  isPlaying() {
+    return this.state === PLAYING_STATE;
+  }
+
+  isOver() {
+    return this.state === GAME_OVER_STATE;
   }
 
   preload() {
@@ -35,6 +66,7 @@ export default class GameScene extends Phaser.Scene {
     this.load.image(BACKGROUND, Background);
     this.load.image(PIPE, Pipe);
     this.load.image(MESSAGE, Message);
+    this.load.image(GAME_OVER, GameOver);
     this.load.spritesheet(BIRD, Bird, { frameWidth: 34, frameHeight: 24 });
   }
 
@@ -44,38 +76,84 @@ export default class GameScene extends Phaser.Scene {
     this.pipes = this.createPipes();
     this.ground = this.createGround();
     this.player = this.createPlayer();
-    this.message = this.createMessage();
+    this.readyMessage = this.createReadyMessage();
+    this.gameoverMessage = this.createGameOverMessage();
 
     this.physics.add.existing(this.ground, true);
-    this.physics.add.collider(this.player, this.ground);
-    this.physics.add.collider(this.player, this.pipes.topPipes);
-    this.physics.add.collider(this.player, this.pipes.bottomPipes);
-
-    this.physics.add.overlap(this.player, this.pipes.topPipes, () => null, null, this);
-    this.physics.add.overlap(this.player, this.pipes.bottomPipes, () => null, null, this);
+    this.physics.add.collider(this.player, this.ground, this.setGameOver, null, this);
+    this.physics.add.collider(this.player, this.pipes.topPipes, this.setGameOver, null, this);
+    this.physics.add.collider(this.player, this.pipes.bottomPipes, this.setGameOver, null, this);
 
     this.cursors = this.input.keyboard.createCursorKeys();
   }
 
   update() {
-    this.flap();
-    this.moveGround();
-    this.recyclePipes();
+    switch (this.state) {
+      case READY_STATE: {
+        this.gameoverMessage.visible = false;
+        this.moveGround();
+        this.onStart();
+        break;
+      }
+      case PLAYING_STATE: {
+        this.flap();
+        this.movePipes();
+        this.recyclePipes();
+        this.moveGround();
+        break;
+      }
+      case GAME_OVER_STATE: {
+        this.gameoverMessage.visible = true;
+        this.onStop();
+        this.onReset();
+        break;
+      }
+      default:
+        break;
+    }
+  }
+
+  onStart() {
+    if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
+      this.state = PLAYING_STATE;
+      this.readyMessage.visible = false;
+      this.player.body.allowGravity = true;
+    }
+  }
+
+  onStop() {
+    this.player.anims.stop();
+    this.fall();
+  }
+
+  onReset() {
+    if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
+      this.gameoverMessage.visible = false;
+      this.state = PLAYING_STATE;
+    }
   }
 
   flap() {
     if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
-      this.message.visible = false;
       this.player.setVelocityY(BIRD_VELOCITY);
       this.player.anims.play(FLAP, true);
       this.player.angle = -ELEVATION_ANGLE;
     } else if (!this.player.body.touching.down) {
+      this.fall();
+    }
+  }
+
+  fall() {
+    if (this.player.angle < FALL_ANGLE) {
       this.player.angle += DECLINE_ANGLE_DELTA;
     }
   }
 
   moveGround() {
     this.ground.tilePositionX += GAME_SPEED;
+  }
+
+  movePipes() {
     this.pipes.topPipes.incX(-GAME_SPEED);
     this.pipes.bottomPipes.incX(-GAME_SPEED);
   }
@@ -90,7 +168,7 @@ export default class GameScene extends Phaser.Scene {
     const player = this.physics.add.sprite(width * 0.3, height * 0.5, BIRD);
     player.setCollideWorldBounds(true);
     player.setGravityY(BIRD_GRAVITY);
-    // player.body.allowGravity = false;
+    player.body.allowGravity = false;
 
     this.anims.create({
       key: FLAP,
@@ -102,10 +180,16 @@ export default class GameScene extends Phaser.Scene {
     return player;
   }
 
-  createMessage() {
+  createReadyMessage() {
     const { width, height } = this.scale;
 
     return this.add.image(width * 0.5, height * 0.4, MESSAGE);
+  }
+
+  createGameOverMessage() {
+    const { width, height } = this.scale;
+
+    return this.add.image(width * 0.5, height * 0.4, GAME_OVER);
   }
 
   createGround() {
