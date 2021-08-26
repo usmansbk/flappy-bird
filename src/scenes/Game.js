@@ -5,14 +5,13 @@ import Bird from '../assets/sprites/bird.png';
 import Pipe from '../assets/sprites/pipe.png';
 import Message from '../assets/sprites/message.png';
 
+const SCENE_NAME = 'game-scene';
 const GROUND = 'ground';
 const BACKGROUND = 'background';
 const BIRD = 'bird';
-const PIPE = 'pipe';
+const PIPE = 'bottom-pipe';
 const FLAP = 'flap';
-const GLIDE = 'glide';
 const MESSAGE = 'message';
-// const PIPE_WIDTH = 52;
 const PIPE_HEIGHT = 320;
 const PIPE_GAP_HEIGHT = 120;
 const PIPE_GAP_LENGTH = 180;
@@ -20,13 +19,15 @@ const PIPE_PAIRS = 3;
 const GROUND_HEIGHT = 112;
 const FRAME_RATE = 10;
 const BIRD_GRAVITY = 1000;
-const BIRD_VELOCITY = -350;
-const GROUND_VELOCITY = 1.5;
-const FLAP_ANGLE = 25;
+const BIRD_VELOCITY = -340;
+const GAME_SPEED = 1.8;
+const ELEVATION_ANGLE = 25;
+const DECLINE_ANGLE_DELTA = 2;
+const MIN_PIPE_HEIGHT = -PIPE_HEIGHT * 0.8;
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
-    super('game-scene');
+    super(SCENE_NAME);
   }
 
   preload() {
@@ -45,10 +46,13 @@ export default class GameScene extends Phaser.Scene {
     this.player = this.createPlayer();
     this.message = this.createMessage();
 
-    this.player.setGravityY(BIRD_GRAVITY);
-
     this.physics.add.existing(this.ground, true);
     this.physics.add.collider(this.player, this.ground);
+    this.physics.add.collider(this.player, this.pipes.topPipes);
+    this.physics.add.collider(this.player, this.pipes.bottomPipes);
+
+    this.physics.add.overlap(this.player, this.pipes.topPipes, () => null, null, this);
+    this.physics.add.overlap(this.player, this.pipes.bottomPipes, () => null, null, this);
 
     this.cursors = this.input.keyboard.createCursorKeys();
   }
@@ -56,7 +60,7 @@ export default class GameScene extends Phaser.Scene {
   update() {
     this.flap();
     this.moveGround();
-    this.movePipes();
+    this.recyclePipes();
   }
 
   flap() {
@@ -64,33 +68,29 @@ export default class GameScene extends Phaser.Scene {
       this.message.visible = false;
       this.player.setVelocityY(BIRD_VELOCITY);
       this.player.anims.play(FLAP, true);
-      this.player.angle = -FLAP_ANGLE;
+      this.player.angle = -ELEVATION_ANGLE;
     } else if (!this.player.body.touching.down) {
-      this.player.angle += 2;
+      this.player.angle += DECLINE_ANGLE_DELTA;
     }
   }
 
   moveGround() {
-    this.ground.tilePositionX += GROUND_VELOCITY;
-  }
-
-  movePipes() {
-    this.pipes.incX(-GROUND_VELOCITY);
+    this.ground.tilePositionX += GAME_SPEED;
+    this.pipes.topPipes.incX(-GAME_SPEED);
+    this.pipes.bottomPipes.incX(-GAME_SPEED);
   }
 
   createBackground() {
-    const plaforms = this.physics.add.staticGroup();
-
     const { width, height } = this.scale;
-    plaforms.create(width * 0.5, height * 0.5, BACKGROUND).setScale(1.5).refreshBody();
-
-    return plaforms;
+    this.physics.add.staticImage(width * 0.5, height * 0.5, BACKGROUND).setScale(1.5).refreshBody();
   }
 
   createPlayer() {
     const { width, height } = this.scale;
     const player = this.physics.add.sprite(width * 0.3, height * 0.5, BIRD);
     player.setCollideWorldBounds(true);
+    player.setGravityY(BIRD_GRAVITY);
+    // player.body.allowGravity = false;
 
     this.anims.create({
       key: FLAP,
@@ -99,19 +99,13 @@ export default class GameScene extends Phaser.Scene {
       repeat: -1,
     });
 
-    this.anims.create({
-      key: GLIDE,
-      frames: [{ key: BIRD, frame: 0 }],
-      frameRate: FRAME_RATE,
-    });
-
     return player;
   }
 
   createMessage() {
     const { width, height } = this.scale;
 
-    return this.add.image(width * 0.5, height * 0.3, MESSAGE);
+    return this.add.image(width * 0.5, height * 0.4, MESSAGE);
   }
 
   createGround() {
@@ -123,22 +117,59 @@ export default class GameScene extends Phaser.Scene {
     return ground;
   }
 
+  createPipePair(x, y) {
+    const top = this.physics.add.image(x, y, PIPE);
+    top.flipY = true;
+    top.body.moves = false;
+    top.setOrigin(0, 0);
+
+    const bottomY = y + PIPE_GAP_HEIGHT + PIPE_HEIGHT;
+    const bottom = this.physics.add.image(x, bottomY, PIPE);
+    bottom.body.moves = false;
+    bottom.setOrigin(0, 0);
+
+    return [top, bottom];
+  }
+
   createPipes() {
-    const pipes = this.physics.add.staticGroup();
+    const { width } = this.scale;
+    const topPipes = this.physics.add.group();
+    const bottomPipes = this.physics.add.group();
+
+    const offsetX = width + PIPE_GAP_LENGTH;
 
     for (let i = 0; i < PIPE_PAIRS; i += 1) {
-      const y = Phaser.Math.Between(-PIPE_HEIGHT * 0.6, 0);
-      const deltaX = i * PIPE_GAP_LENGTH;
-      const top = this.add.image(deltaX, y, PIPE).setOrigin(0, 0);
-      top.flipY = true;
+      const y = Phaser.Math.Between(MIN_PIPE_HEIGHT, 0);
+      const deltaX = offsetX + (i * PIPE_GAP_LENGTH);
 
-      const bottom = this.add.image(deltaX, y + PIPE_GAP_HEIGHT + PIPE_HEIGHT, PIPE)
-        .setOrigin(0, 0);
+      const [top, bottom] = this.createPipePair(deltaX, y);
 
-      pipes.add(top);
-      pipes.add(bottom);
+      topPipes.add(top);
+      bottomPipes.add(bottom);
     }
 
-    return pipes;
+    return { topPipes, bottomPipes };
+  }
+
+  updatePipesPosition(top, bottom) {
+    const x = this.scale.width + PIPE_GAP_LENGTH;
+    const y = Phaser.Math.Between(MIN_PIPE_HEIGHT, 0);
+    const bottomY = y + PIPE_GAP_HEIGHT + PIPE_HEIGHT;
+
+    top.y = y;
+    top.x = x;
+
+    bottom.x = x;
+    bottom.y = bottomY;
+  }
+
+  recyclePipes() {
+    this.pipes.bottomPipes.getChildren().forEach((bottom, index) => {
+      const x = bottom.getBounds().right;
+      if (x < 0) {
+        const top = this.pipes.topPipes.getChildren()[index];
+        this.updatePipesPosition(top, bottom);
+      }
+    });
   }
 }
