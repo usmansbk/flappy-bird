@@ -40,6 +40,7 @@ const MIN_PIPE_HEIGHT = -PIPE_HEIGHT * 0.75;
 const READY_STATE = 'ready-state';
 const PLAYING_STATE = 'playing-state';
 const GAME_OVER_STATE = 'gameover-state';
+const DIGIT_WIDTH = 24;
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -150,6 +151,7 @@ export default class GameScene extends Phaser.Scene {
 
   clearScore() {
     this.score = 0;
+    this.digits = String(this.score).split('');
     this.lastRecordedPipe = null;
   }
 
@@ -224,13 +226,22 @@ export default class GameScene extends Phaser.Scene {
   }
 
   updateScoreText() {
-    this.scoreText.setText(this.score);
+    this.scoreText.clear(true, true);
+    this.scoreText = this.createScoreText();
   }
 
   createScoreText() {
-    const message = this.add.text(16, 16, this.score, { fontSize: '32px', fill: '#000' });
+    const { width, height } = this.scale;
+    const score = this.physics.add.staticGroup();
 
-    return message;
+    const x = width * 0.5;
+    const y = height * 0.1;
+    const digits = String(this.score).split('');
+    digits.forEach((digit, index) => {
+      score.create(x + (index * DIGIT_WIDTH), y, digit);
+    });
+
+    return score;
   }
 
   createGround() {
