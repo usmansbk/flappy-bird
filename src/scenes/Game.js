@@ -59,7 +59,7 @@ export default class GameScene extends Phaser.Scene {
   update() {
     this.flap();
     this.moveGround();
-    // this.recyclePipes();
+    this.recyclePipes();
   }
 
   flap() {
@@ -116,6 +116,20 @@ export default class GameScene extends Phaser.Scene {
     return ground;
   }
 
+  createPipePair(x, y) {
+    const top = this.physics.add.image(x, y, PIPE);
+    top.flipY = true;
+    top.body.moves = false;
+    top.setOrigin(0, 0);
+
+    const bottomY = y + PIPE_GAP_HEIGHT + PIPE_HEIGHT;
+    const bottom = this.physics.add.image(x, bottomY, PIPE);
+    bottom.body.moves = false;
+    bottom.setOrigin(0, 0);
+
+    return [top, bottom];
+  }
+
   createPipes() {
     const { width } = this.scale;
     const topPipes = this.physics.add.group();
@@ -126,29 +140,34 @@ export default class GameScene extends Phaser.Scene {
     for (let i = 0; i < PIPE_PAIRS; i += 1) {
       const y = Phaser.Math.Between(-PIPE_HEIGHT * 0.4, 0);
       const deltaX = offsetX + (i * PIPE_GAP_LENGTH);
-      const bottomY = y + PIPE_GAP_HEIGHT + PIPE_HEIGHT;
 
-      const top = this.physics.add.image(deltaX, y, PIPE);
-      top.flipY = true;
-      top.body.moves = false;
+      const [top, bottom] = this.createPipePair(deltaX, y);
+
       topPipes.add(top);
-
-      const bottom = this.physics.add.image(deltaX, bottomY, PIPE);
-      bottom.body.moves = false;
       bottomPipes.add(bottom);
     }
-
-    topPipes.setOrigin(0, 0);
-    bottomPipes.setOrigin(0, 0);
 
     return { topPipes, bottomPipes };
   }
 
+  updatePipesPosition(top, bottom) {
+    const x = this.scale.width + PIPE_GAP_LENGTH;
+    const y = Phaser.Math.Between(-PIPE_HEIGHT * 0.4, 0);
+    const bottomY = y + PIPE_GAP_HEIGHT + PIPE_HEIGHT;
+
+    top.y = y;
+    top.x = x;
+
+    bottom.x = x;
+    bottom.y = bottomY;
+  }
+
   recyclePipes() {
-    this.pipes.getChildren().forEach((pipe) => {
-      const x = pipe.getBounds().right;
+    this.pipes.bottomPipes.getChildren().forEach((bottom, index) => {
+      const x = bottom.getBounds().right;
       if (x < 0) {
-        console.log(pipe.getBounds().right);
+        const top = this.pipes.topPipes.getChildren()[index];
+        this.updatePipesPosition(top, bottom);
       }
     });
   }
