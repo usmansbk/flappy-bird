@@ -269,11 +269,11 @@ export default class GameScene extends Phaser.Scene {
     bottom.y = bottomY;
   }
 
-  updateScore(pipeMiddle, pipeIndex) {
+  updateScore(pipeMiddle, currentPipe) {
     const { right } = this.player.getBounds();
-    if (pipeMiddle < right && this.lastRecordedPipe !== pipeIndex) {
+    if (pipeMiddle < right && this.lastRecordedPipe !== currentPipe) {
       this.score += 1;
-      this.lastRecordedPipe = pipeIndex;
+      this.lastRecordedPipe = currentPipe;
     }
   }
 
