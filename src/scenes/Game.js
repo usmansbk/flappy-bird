@@ -11,7 +11,6 @@ const BIRD = 'bird';
 const PIPE = 'pipe';
 const FLAP = 'flap';
 const MESSAGE = 'message';
-// const PIPE_WIDTH = 52;
 const PIPE_HEIGHT = 320;
 const PIPE_GAP_HEIGHT = 120;
 const PIPE_GAP_LENGTH = 180;
@@ -43,8 +42,6 @@ export default class GameScene extends Phaser.Scene {
     this.ground = this.createGround();
     this.player = this.createPlayer();
     this.message = this.createMessage();
-
-    this.player.setGravityY(BIRD_GRAVITY);
 
     this.physics.add.existing(this.ground, true);
     this.physics.add.collider(this.player, this.ground);
@@ -91,6 +88,7 @@ export default class GameScene extends Phaser.Scene {
     const { width, height } = this.scale;
     const player = this.physics.add.sprite(width * 0.3, height * 0.5, BIRD);
     player.setCollideWorldBounds(true);
+    player.setGravityY(BIRD_GRAVITY);
 
     this.anims.create({
       key: FLAP,
