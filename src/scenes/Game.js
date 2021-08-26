@@ -5,6 +5,16 @@ import Bird from '../assets/sprites/bird.png';
 import Pipe from '../assets/sprites/pipe.png';
 import Message from '../assets/sprites/message.png';
 import GameOver from '../assets/sprites/gameover.png';
+import Zero from '../assets/sprites/0.png';
+import One from '../assets/sprites/1.png';
+import Two from '../assets/sprites/2.png';
+import Three from '../assets/sprites/3.png';
+import Four from '../assets/sprites/4.png';
+import Five from '../assets/sprites/5.png';
+import Six from '../assets/sprites/6.png';
+import Seven from '../assets/sprites/7.png';
+import Eight from '../assets/sprites/8.png';
+import Nine from '../assets/sprites/9.png';
 
 const SCENE_NAME = 'game-scene';
 const GROUND = 'ground';
@@ -30,6 +40,7 @@ const MIN_PIPE_HEIGHT = -PIPE_HEIGHT * 0.75;
 const READY_STATE = 'ready-state';
 const PLAYING_STATE = 'playing-state';
 const GAME_OVER_STATE = 'gameover-state';
+const DIGIT_WIDTH = 24;
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -57,6 +68,16 @@ export default class GameScene extends Phaser.Scene {
     this.load.image(MESSAGE, Message);
     this.load.image(GAME_OVER, GameOver);
     this.load.spritesheet(BIRD, Bird, { frameWidth: 34, frameHeight: 24 });
+    this.load.image('0', Zero);
+    this.load.image('1', One);
+    this.load.image('2', Two);
+    this.load.image('3', Three);
+    this.load.image('4', Four);
+    this.load.image('5', Five);
+    this.load.image('6', Six);
+    this.load.image('7', Seven);
+    this.load.image('8', Eight);
+    this.load.image('9', Nine);
   }
 
   create() {
@@ -130,6 +151,7 @@ export default class GameScene extends Phaser.Scene {
 
   clearScore() {
     this.score = 0;
+    this.digits = String(this.score).split('');
     this.lastRecordedPipe = null;
   }
 
@@ -204,13 +226,22 @@ export default class GameScene extends Phaser.Scene {
   }
 
   updateScoreText() {
-    this.scoreText.setText(this.score);
+    this.scoreText.clear(true, true);
+    this.scoreText = this.createScoreText();
   }
 
   createScoreText() {
-    const message = this.add.text(16, 16, this.score, { fontSize: '32px', fill: '#000' });
+    const { width, height } = this.scale;
+    const score = this.physics.add.staticGroup();
 
-    return message;
+    const x = width * 0.5;
+    const y = height * 0.1;
+    const digits = String(this.score).split('');
+    digits.forEach((digit, index) => {
+      score.create(x + (index * DIGIT_WIDTH), y, digit);
+    });
+
+    return score;
   }
 
   createGround() {
