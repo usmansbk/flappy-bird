@@ -3,14 +3,12 @@ import Base from '../assets/sprites/base.png';
 import Background from '../assets/sprites/background.png';
 import Bird from '../assets/sprites/bird.png';
 import Pipe from '../assets/sprites/pipe.png';
-import TopPipe from '../assets/sprites/top-pipe.png';
 import Message from '../assets/sprites/message.png';
 
 const GROUND = 'ground';
 const BACKGROUND = 'background';
 const BIRD = 'bird';
-const BOTTOM_PIPE = 'bottom-pipe';
-const TOP_PIPE = 'top-pipe';
+const PIPE = 'bottom-pipe';
 const FLAP = 'flap';
 const MESSAGE = 'message';
 const PIPE_HEIGHT = 320;
@@ -33,8 +31,7 @@ export default class GameScene extends Phaser.Scene {
   preload() {
     this.load.image(GROUND, Base);
     this.load.image(BACKGROUND, Background);
-    this.load.image(BOTTOM_PIPE, Pipe);
-    this.load.image(TOP_PIPE, TopPipe);
+    this.load.image(PIPE, Pipe);
     this.load.image(MESSAGE, Message);
     this.load.spritesheet(BIRD, Bird, { frameWidth: 34, frameHeight: 24 });
   }
@@ -115,7 +112,7 @@ export default class GameScene extends Phaser.Scene {
 
   createPipes() {
     const { width } = this.scale;
-    const pipes = this.physics.add.staticGroup();
+    const pipes = this.physics.add.group();
     const offset = width + PIPE_GAP_LENGTH;
 
     for (let i = 0; i < PIPE_PAIRS; i += 1) {
@@ -123,8 +120,14 @@ export default class GameScene extends Phaser.Scene {
       const deltaX = offset + (i * PIPE_GAP_LENGTH);
       const bottomY = y + PIPE_GAP_HEIGHT + PIPE_HEIGHT;
 
-      pipes.create(deltaX, y, TOP_PIPE);
-      pipes.create(deltaX, bottomY, BOTTOM_PIPE);
+      const top = this.physics.add.image(deltaX, y, PIPE);
+      top.flipY = true;
+      top.body.moves = false;
+      pipes.add(top);
+
+      const bottom = this.physics.add.image(deltaX, bottomY, PIPE);
+      bottom.body.moves = false;
+      pipes.add(bottom);
     }
 
     pipes.setOrigin(0, 0);
