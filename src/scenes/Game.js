@@ -128,7 +128,7 @@ export default class GameScene extends Phaser.Scene {
 
   clearScore() {
     this.score = 0;
-    this.lastPipeIndex = null;
+    this.lastRecordedPipe = null;
   }
 
   flap() {
@@ -271,9 +271,9 @@ export default class GameScene extends Phaser.Scene {
 
   updateScore(pipeMiddle, pipeIndex) {
     const { right } = this.player.getBounds();
-    if (pipeMiddle < right && this.lastPipeIndex !== pipeIndex) {
+    if (pipeMiddle < right && this.lastRecordedPipe !== pipeIndex) {
       this.score += 1;
-      this.lastPipeIndex = pipeIndex;
+      this.lastRecordedPipe = pipeIndex;
     }
   }
 
