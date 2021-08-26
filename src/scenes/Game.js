@@ -19,10 +19,11 @@ const PIPE_PAIRS = 3;
 const GROUND_HEIGHT = 112;
 const FRAME_RATE = 10;
 const BIRD_GRAVITY = 1000;
-const BIRD_VELOCITY = -350;
+const BIRD_VELOCITY = -340;
 const GAME_SPEED = 1.8;
 const ELEVATION_ANGLE = 25;
 const DECLINE_ANGLE_DELTA = 2;
+const MIN_PIPE_HEIGHT = -PIPE_HEIGHT * 0.8;
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -138,7 +139,7 @@ export default class GameScene extends Phaser.Scene {
     const offsetX = width + PIPE_GAP_LENGTH;
 
     for (let i = 0; i < PIPE_PAIRS; i += 1) {
-      const y = Phaser.Math.Between(-PIPE_HEIGHT * 0.4, 0);
+      const y = Phaser.Math.Between(MIN_PIPE_HEIGHT, 0);
       const deltaX = offsetX + (i * PIPE_GAP_LENGTH);
 
       const [top, bottom] = this.createPipePair(deltaX, y);
@@ -152,7 +153,7 @@ export default class GameScene extends Phaser.Scene {
 
   updatePipesPosition(top, bottom) {
     const x = this.scale.width + PIPE_GAP_LENGTH;
-    const y = Phaser.Math.Between(-PIPE_HEIGHT * 0.4, 0);
+    const y = Phaser.Math.Between(MIN_PIPE_HEIGHT, 0);
     const bottomY = y + PIPE_GAP_HEIGHT + PIPE_HEIGHT;
 
     top.y = y;
