@@ -75,12 +75,12 @@ export default class GameScene extends Phaser.Scene {
     this.message = this.createMessage();
 
     this.physics.add.existing(this.ground, true);
-    this.physics.add.collider(this.player, this.ground);
+    this.physics.add.collider(this.player, this.ground, this.setGameOver);
     this.physics.add.collider(this.player, this.pipes.topPipes);
     this.physics.add.collider(this.player, this.pipes.bottomPipes);
 
-    this.physics.add.overlap(this.player, this.pipes.topPipes, () => null, null, this);
-    this.physics.add.overlap(this.player, this.pipes.bottomPipes, () => null, null, this);
+    this.physics.add.overlap(this.player, this.pipes.topPipes, this.setGameOver, null, this);
+    this.physics.add.overlap(this.player, this.pipes.bottomPipes, this.setGameOver, null, this);
 
     this.cursors = this.input.keyboard.createCursorKeys();
   }
