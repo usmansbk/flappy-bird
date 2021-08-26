@@ -86,15 +86,45 @@ export default class GameScene extends Phaser.Scene {
   }
 
   update() {
-    this.flap();
-    this.moveGround();
-    this.movePipes();
-    this.recyclePipes();
+    switch (this.state) {
+      case READY_STATE: {
+        this.moveGround();
+        if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
+          this.start();
+        }
+        break;
+      }
+      case PLAYING_STATE: {
+        this.flap();
+        this.movePipes();
+        this.recyclePipes();
+        this.moveGround();
+        break;
+      }
+      case GAME_OVER_STATE: {
+        this.stop();
+        break;
+      }
+      default:
+        break;
+    }
+  }
+
+  start() {
+    this.state = PLAYING_STATE;
+    this.message.visible = false;
+  }
+
+  stop() {
+    if (!this.player.body.touching.down) {
+      this.player.angle += DECLINE_ANGLE_DELTA;
+    } else {
+      this.player.anims.stop();
+    }
   }
 
   flap() {
     if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
-      this.message.visible = false;
       this.player.setVelocityY(BIRD_VELOCITY);
       this.player.anims.play(FLAP, true);
       this.player.angle = -ELEVATION_ANGLE;
