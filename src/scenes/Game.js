@@ -86,9 +86,10 @@ export default class GameScene extends Phaser.Scene {
 
   createPlayer() {
     const { width, height } = this.scale;
-    const player = this.physics.add.sprite(width * 0.3, height * 0.5, BIRD);
+    const player = this.physics.add.sprite(width * 0.3, height * 0.4, BIRD);
     player.setCollideWorldBounds(true);
     player.setGravityY(BIRD_GRAVITY);
+    player.body.allowGravity = false;
 
     this.anims.create({
       key: FLAP,
