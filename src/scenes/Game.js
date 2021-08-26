@@ -119,10 +119,16 @@ export default class GameScene extends Phaser.Scene {
   onRestart() {
     if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
       this.gameoverMessage.visible = false;
+      this.clearScore();
       this.resetPlayer();
       this.resetAllPipes();
       this.setReady();
     }
+  }
+
+  clearScore() {
+    this.score = 0;
+    this.lastRecordedPipe = null;
   }
 
   flap() {
@@ -263,13 +269,22 @@ export default class GameScene extends Phaser.Scene {
     bottom.y = bottomY;
   }
 
+  updateScore(pipeMiddle, currentPipe) {
+    const { right } = this.player.getBounds();
+    if (pipeMiddle < right && this.lastRecordedPipe !== currentPipe) {
+      this.score += 1;
+      this.lastRecordedPipe = currentPipe;
+    }
+  }
+
   recyclePipes() {
     this.pipes.bottomPipes.getChildren().forEach((bottom, index) => {
-      const x = bottom.getBounds().right;
-      if (x < 0) {
+      const { right, centerX } = bottom.getBounds();
+      if (right < 0) {
         const top = this.pipes.topPipes.getChildren()[index];
         this.resetPipesPosition(top, bottom);
       }
+      this.updateScore(centerX, index);
     });
   }
 }
