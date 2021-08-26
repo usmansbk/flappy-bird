@@ -274,7 +274,6 @@ export default class GameScene extends Phaser.Scene {
     if (pipeMiddle < right && this.lastPipeIndex !== pipeIndex) {
       this.score += 1;
       this.lastPipeIndex = pipeIndex;
-      console.log(this.score);
     }
   }
 
