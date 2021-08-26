@@ -47,6 +47,7 @@ export default class GameScene extends Phaser.Scene {
     super(SCENE_NAME);
     this.state = READY_STATE;
     this.score = 0;
+    this.digits = String(this.score).split('');
   }
 
   setReady() {
@@ -141,10 +142,8 @@ export default class GameScene extends Phaser.Scene {
 
   onRestart() {
     if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
-      this.gameoverMessage.visible = false;
+      this.scene.restart();
       this.clearScore();
-      this.resetPlayer();
-      this.resetAllPipes();
       this.setReady();
     }
   }
@@ -236,8 +235,7 @@ export default class GameScene extends Phaser.Scene {
 
     const x = width * 0.5;
     const y = height * 0.1;
-    const digits = String(this.score).split('');
-    digits.forEach((digit, index) => {
+    this.digits.forEach((digit, index) => {
       score.create(x + (index * DIGIT_WIDTH), y, digit);
     });
 
@@ -287,21 +285,8 @@ export default class GameScene extends Phaser.Scene {
     return { topPipes, bottomPipes };
   }
 
-  resetAllPipes() {
-    const topPipes = this.pipes.topPipes.getChildren();
-    const bottomPipes = this.pipes.bottomPipes.getChildren();
-
-    for (let i = 0; i < PIPE_PAIRS; i += 1) {
-      const top = topPipes[i];
-      const bottom = bottomPipes[i];
-
-      this.resetPipesPosition(top, bottom, i);
-    }
-  }
-
-  resetPipesPosition(top, bottom, step = 0) {
-    const offsetX = this.scale.width + PIPE_GAP_LENGTH;
-    const x = offsetX + (step * PIPE_GAP_LENGTH);
+  resetPipesPosition(top, bottom) {
+    const x = this.scale.width + PIPE_GAP_LENGTH;
     const y = Phaser.Math.Between(MIN_PIPE_HEIGHT, 0);
     const bottomY = y + PIPE_GAP_HEIGHT + PIPE_HEIGHT;
 
@@ -316,6 +301,7 @@ export default class GameScene extends Phaser.Scene {
     const { right } = this.player.getBounds();
     if (pipeMiddle < right && this.lastRecordedPipe !== currentPipe) {
       this.score += 1;
+      this.digits = String(this.score).split('');
       this.lastRecordedPipe = currentPipe;
     }
   }
