@@ -141,10 +141,8 @@ export default class GameScene extends Phaser.Scene {
 
   onRestart() {
     if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
-      this.gameoverMessage.visible = false;
+      this.scene.restart();
       this.clearScore();
-      this.resetPlayer();
-      this.resetAllPipes();
       this.setReady();
     }
   }
@@ -287,21 +285,8 @@ export default class GameScene extends Phaser.Scene {
     return { topPipes, bottomPipes };
   }
 
-  resetAllPipes() {
-    const topPipes = this.pipes.topPipes.getChildren();
-    const bottomPipes = this.pipes.bottomPipes.getChildren();
-
-    for (let i = 0; i < PIPE_PAIRS; i += 1) {
-      const top = topPipes[i];
-      const bottom = bottomPipes[i];
-
-      this.resetPipesPosition(top, bottom, i);
-    }
-  }
-
-  resetPipesPosition(top, bottom, step = 0) {
-    const offsetX = this.scale.width + PIPE_GAP_LENGTH;
-    const x = offsetX + (step * PIPE_GAP_LENGTH);
+  resetPipesPosition(top, bottom) {
+    const x = this.scale.width + PIPE_GAP_LENGTH;
     const y = Phaser.Math.Between(MIN_PIPE_HEIGHT, 0);
     const bottomY = y + PIPE_GAP_HEIGHT + PIPE_HEIGHT;
 
