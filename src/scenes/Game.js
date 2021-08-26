@@ -263,13 +263,22 @@ export default class GameScene extends Phaser.Scene {
     bottom.y = bottomY;
   }
 
+  updateScore(pipeMiddle, pipeIndex) {
+    const { right } = this.player.getBounds();
+    if (pipeMiddle < right && this.lastIndex !== pipeIndex) {
+      this.score += 1;
+      this.lastIndex = pipeIndex;
+    }
+  }
+
   recyclePipes() {
     this.pipes.bottomPipes.getChildren().forEach((bottom, index) => {
-      const x = bottom.getBounds().right;
-      if (x < 0) {
+      const { right, centerX } = bottom.getBounds();
+      if (right < 0) {
         const top = this.pipes.topPipes.getChildren()[index];
         this.resetPipesPosition(top, bottom);
       }
+      this.updateScore(centerX, index);
     });
   }
 }
