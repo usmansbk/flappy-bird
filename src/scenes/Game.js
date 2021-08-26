@@ -47,10 +47,8 @@ export default class GameScene extends Phaser.Scene {
 
     this.physics.add.existing(this.ground, true);
     this.physics.add.collider(this.player, this.ground);
-
-    const [topPipes, bottomPipes] = this.pipes;
-    this.physics.add.collider(this.player, topPipes, () => console.log('Collide'));
-    this.physics.add.collider(this.player, bottomPipes, () => console.log('Collide'));
+    this.physics.add.collider(this.player, this.pipes);
+    this.physics.add.overlap(this.player, this.pipes, () => console.log('Overlap'), null, this);
 
     this.cursors = this.input.keyboard.createCursorKeys();
   }
@@ -74,9 +72,7 @@ export default class GameScene extends Phaser.Scene {
 
   moveGround() {
     this.ground.tilePositionX += GAME_SPEED;
-    const [top, bottom] = this.pipes;
-    top.incX(-GAME_SPEED);
-    bottom.incX(-GAME_SPEED);
+    this.pipes.incX(-GAME_SPEED);
   }
 
   createBackground() {
@@ -118,9 +114,7 @@ export default class GameScene extends Phaser.Scene {
 
   createPipes() {
     const { width } = this.scale;
-    const topPipes = this.physics.add.group();
-    const bottomPipes = this.physics.add.group();
-
+    const pipes = this.physics.add.group();
     const offsetX = width + PIPE_GAP_LENGTH;
 
     for (let i = 0; i < PIPE_PAIRS; i += 1) {
@@ -131,16 +125,15 @@ export default class GameScene extends Phaser.Scene {
       const top = this.physics.add.image(deltaX, y, PIPE);
       top.flipY = true;
       top.body.moves = false;
-      topPipes.add(top);
+      pipes.add(top);
 
       const bottom = this.physics.add.image(deltaX, bottomY, PIPE);
       bottom.body.moves = false;
-      bottomPipes.add(bottom);
+      pipes.add(bottom);
     }
 
-    topPipes.setOrigin(0, 0);
-    bottomPipes.setOrigin(0, 0);
-    return [topPipes, bottomPipes];
+    pipes.setOrigin(0, 0);
+    return pipes;
   }
 
   recyclePipes() {
