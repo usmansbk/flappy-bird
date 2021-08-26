@@ -22,7 +22,7 @@ const GROUND_HEIGHT = 112;
 const FRAME_RATE = 10;
 const BIRD_GRAVITY = 1000;
 const BIRD_VELOCITY = -340;
-const GAME_SPEED = 1.8;
+const GAME_SPEED = 2;
 const ELEVATION_ANGLE = 25;
 const FALL_ANGLE = 90;
 const DECLINE_ANGLE_DELTA = 2;
@@ -35,6 +35,7 @@ export default class GameScene extends Phaser.Scene {
   constructor() {
     super(SCENE_NAME);
     this.state = READY_STATE;
+    this.score = 0;
   }
 
   setReady() {
