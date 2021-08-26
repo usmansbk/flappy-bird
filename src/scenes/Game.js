@@ -24,6 +24,7 @@ const BIRD_GRAVITY = 1000;
 const BIRD_VELOCITY = -340;
 const GAME_SPEED = 1.8;
 const ELEVATION_ANGLE = 25;
+const FALL_ANGLE = 90;
 const DECLINE_ANGLE_DELTA = 2;
 const MIN_PIPE_HEIGHT = -PIPE_HEIGHT * 0.8;
 const READY_STATE = 'ready-state';
@@ -135,7 +136,9 @@ export default class GameScene extends Phaser.Scene {
   }
 
   fall() {
-    this.player.angle += DECLINE_ANGLE_DELTA;
+    if (this.player.angle < FALL_ANGLE) {
+      this.player.angle += DECLINE_ANGLE_DELTA;
+    }
   }
 
   moveGround() {
