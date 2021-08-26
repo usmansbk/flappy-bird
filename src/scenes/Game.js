@@ -3,12 +3,14 @@ import Base from '../assets/sprites/base.png';
 import Background from '../assets/sprites/background.png';
 import Bird from '../assets/sprites/bird.png';
 import Pipe from '../assets/sprites/pipe.png';
+import TopPipe from '../assets/sprites/top-pipe.png';
 import Message from '../assets/sprites/message.png';
 
 const GROUND = 'ground';
 const BACKGROUND = 'background';
 const BIRD = 'bird';
-const PIPE = 'pipe';
+const PIPE = 'bottom-pipe';
+const TOP_PIPE = 'top-pipe';
 const FLAP = 'flap';
 const MESSAGE = 'message';
 const PIPE_HEIGHT = 320;
@@ -32,6 +34,7 @@ export default class GameScene extends Phaser.Scene {
     this.load.image(GROUND, Base);
     this.load.image(BACKGROUND, Background);
     this.load.image(PIPE, Pipe);
+    this.load.image(TOP_PIPE, TopPipe);
     this.load.image(MESSAGE, Message);
     this.load.spritesheet(BIRD, Bird, { frameWidth: 34, frameHeight: 24 });
   }
@@ -46,7 +49,9 @@ export default class GameScene extends Phaser.Scene {
 
     this.physics.add.existing(this.ground, true);
     this.physics.add.collider(this.player, this.ground);
-    this.physics.add.collider(this.player, this.pipes);
+
+    this.physics.add.existing(this.pipes, true);
+    this.physics.add.collider(this.player, this.pipes, () => console.log('Collide'));
 
     this.cursors = this.input.keyboard.createCursorKeys();
   }
@@ -117,16 +122,13 @@ export default class GameScene extends Phaser.Scene {
     for (let i = 0; i < PIPE_PAIRS; i += 1) {
       const y = Phaser.Math.Between(-PIPE_HEIGHT * 0.4, 0);
       const deltaX = offset + (i * PIPE_GAP_LENGTH);
-      const top = this.physics.add.staticImage(deltaX, y, PIPE).setOrigin(0, 0);
-      top.flipY = true;
+      const bottomY = y + PIPE_GAP_HEIGHT + PIPE_HEIGHT;
 
-      const bottom = this.physics.add.staticImage(deltaX, y + PIPE_GAP_HEIGHT + PIPE_HEIGHT, PIPE)
-        .setOrigin(0, 0);
-
-      pipes.add(top);
-      pipes.add(bottom);
+      pipes.create(deltaX, y, TOP_PIPE);
+      pipes.create(deltaX, bottomY, PIPE);
     }
 
+    pipes.setOrigin(0, 0);
     return pipes;
   }
 }
