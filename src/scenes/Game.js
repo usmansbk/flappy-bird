@@ -9,7 +9,7 @@ import Message from '../assets/sprites/message.png';
 const GROUND = 'ground';
 const BACKGROUND = 'background';
 const BIRD = 'bird';
-const PIPE = 'bottom-pipe';
+const BOTTOM_PIPE = 'bottom-pipe';
 const TOP_PIPE = 'top-pipe';
 const FLAP = 'flap';
 const MESSAGE = 'message';
@@ -33,7 +33,7 @@ export default class GameScene extends Phaser.Scene {
   preload() {
     this.load.image(GROUND, Base);
     this.load.image(BACKGROUND, Background);
-    this.load.image(PIPE, Pipe);
+    this.load.image(BOTTOM_PIPE, Pipe);
     this.load.image(TOP_PIPE, TopPipe);
     this.load.image(MESSAGE, Message);
     this.load.spritesheet(BIRD, Bird, { frameWidth: 34, frameHeight: 24 });
@@ -50,7 +50,6 @@ export default class GameScene extends Phaser.Scene {
     this.physics.add.existing(this.ground, true);
     this.physics.add.collider(this.player, this.ground);
 
-    this.physics.add.existing(this.pipes, true);
     this.physics.add.collider(this.player, this.pipes, () => console.log('Collide'));
 
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -125,7 +124,7 @@ export default class GameScene extends Phaser.Scene {
       const bottomY = y + PIPE_GAP_HEIGHT + PIPE_HEIGHT;
 
       pipes.create(deltaX, y, TOP_PIPE);
-      pipes.create(deltaX, bottomY, PIPE);
+      pipes.create(deltaX, bottomY, BOTTOM_PIPE);
     }
 
     pipes.setOrigin(0, 0);
