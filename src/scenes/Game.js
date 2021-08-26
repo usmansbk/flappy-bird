@@ -92,7 +92,7 @@ export default class GameScene extends Phaser.Scene {
       case READY_STATE: {
         this.gameoverMessage.visible = false;
         this.moveGround();
-        this.start();
+        this.onStart();
         break;
       }
       case PLAYING_STATE: {
@@ -104,7 +104,8 @@ export default class GameScene extends Phaser.Scene {
       }
       case GAME_OVER_STATE: {
         this.gameoverMessage.visible = true;
-        this.stop();
+        this.onStop();
+        this.onReset();
         break;
       }
       default:
@@ -112,7 +113,7 @@ export default class GameScene extends Phaser.Scene {
     }
   }
 
-  start() {
+  onStart() {
     if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
       this.state = PLAYING_STATE;
       this.readyMessage.visible = false;
@@ -120,9 +121,16 @@ export default class GameScene extends Phaser.Scene {
     }
   }
 
-  stop() {
+  onStop() {
     this.player.anims.stop();
     this.fall();
+  }
+
+  onReset() {
+    if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
+      this.gameoverMessage.visible = false;
+      this.state = PLAYING_STATE;
+    }
   }
 
   flap() {
