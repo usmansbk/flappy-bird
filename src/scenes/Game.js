@@ -124,10 +124,10 @@ export default class GameScene extends Phaser.Scene {
     for (let i = 0; i < PIPE_PAIRS; i += 1) {
       const y = Phaser.Math.Between(-PIPE_HEIGHT * 0.6, 0);
       const deltaX = offset + (i * PIPE_GAP_LENGTH);
-      const top = this.add.image(deltaX, y, PIPE).setOrigin(0, 0);
+      const top = this.physics.add.staticImage(deltaX, y, PIPE).setOrigin(0, 0);
       top.flipY = true;
 
-      const bottom = this.add.image(deltaX, y + PIPE_GAP_HEIGHT + PIPE_HEIGHT, PIPE)
+      const bottom = this.physics.add.staticImage(deltaX, y + PIPE_GAP_HEIGHT + PIPE_HEIGHT, PIPE)
         .setOrigin(0, 0);
 
       pipes.add(top);
