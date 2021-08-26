@@ -90,7 +90,8 @@ export default class GameScene extends Phaser.Scene {
   update() {
     switch (this.state) {
       case READY_STATE: {
-        this.gameoverMessage.visible = false;
+        this.readyMessage.visible = true;
+        this.player.anims.play(FLAP, true);
         this.moveGround();
         this.onStart();
         break;
@@ -115,9 +116,9 @@ export default class GameScene extends Phaser.Scene {
 
   onStart() {
     if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
-      this.state = PLAYING_STATE;
       this.readyMessage.visible = false;
       this.player.body.allowGravity = true;
+      this.state = PLAYING_STATE;
     }
   }
 
@@ -129,7 +130,6 @@ export default class GameScene extends Phaser.Scene {
   onRestart() {
     if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
       this.gameoverMessage.visible = false;
-      this.state = PLAYING_STATE;
       const { width, height } = this.scale;
       this.player.setPosition(width * 0.3, height * 0.5);
 
@@ -142,6 +142,8 @@ export default class GameScene extends Phaser.Scene {
 
         this.resetPipesPosition(top, bottom, i);
       }
+
+      this.state = READY_STATE;
     }
   }
 
@@ -195,13 +197,19 @@ export default class GameScene extends Phaser.Scene {
   createReadyMessage() {
     const { width, height } = this.scale;
 
-    return this.add.image(width * 0.5, height * 0.4, MESSAGE);
+    const message = this.add.image(width * 0.5, height * 0.4, MESSAGE);
+    message.visible = false;
+
+    return message;
   }
 
   createGameOverMessage() {
     const { width, height } = this.scale;
 
-    return this.add.image(width * 0.5, height * 0.4, GAME_OVER);
+    const message = this.add.image(width * 0.5, height * 0.4, GAME_OVER);
+    message.visible = false;
+
+    return message;
   }
 
   createGround() {
