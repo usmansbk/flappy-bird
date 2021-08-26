@@ -119,10 +119,16 @@ export default class GameScene extends Phaser.Scene {
   onRestart() {
     if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
       this.gameoverMessage.visible = false;
+      this.clearScore();
       this.resetPlayer();
       this.resetAllPipes();
       this.setReady();
     }
+  }
+
+  clearScore() {
+    this.score = 0;
+    this.lastPipeIndex = null;
   }
 
   flap() {
@@ -265,9 +271,10 @@ export default class GameScene extends Phaser.Scene {
 
   updateScore(pipeMiddle, pipeIndex) {
     const { right } = this.player.getBounds();
-    if (pipeMiddle < right && this.lastIndex !== pipeIndex) {
+    if (pipeMiddle < right && this.lastPipeIndex !== pipeIndex) {
       this.score += 1;
-      this.lastIndex = pipeIndex;
+      this.lastPipeIndex = pipeIndex;
+      console.log(this.score);
     }
   }
 
