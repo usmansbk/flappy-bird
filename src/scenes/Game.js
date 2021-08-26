@@ -88,6 +88,7 @@ export default class GameScene extends Phaser.Scene {
   update() {
     this.flap();
     this.moveGround();
+    this.movePipes();
     this.recyclePipes();
   }
 
@@ -104,6 +105,9 @@ export default class GameScene extends Phaser.Scene {
 
   moveGround() {
     this.ground.tilePositionX += GAME_SPEED;
+  }
+
+  movePipes() {
     this.pipes.topPipes.incX(-GAME_SPEED);
     this.pipes.bottomPipes.incX(-GAME_SPEED);
   }
