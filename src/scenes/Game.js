@@ -19,7 +19,7 @@ const GROUND_HEIGHT = 112;
 const FRAME_RATE = 10;
 const BIRD_GRAVITY = 1000;
 const BIRD_VELOCITY = -350;
-const GAME_SPEED = 1.5;
+const GAME_SPEED = 1.8;
 const FLAP_ANGLE = 25;
 
 export default class GameScene extends Phaser.Scene {
@@ -86,7 +86,7 @@ export default class GameScene extends Phaser.Scene {
 
   createPlayer() {
     const { width, height } = this.scale;
-    const player = this.physics.add.sprite(width * 0.3, height * 0.4, BIRD);
+    const player = this.physics.add.sprite(width * 0.3, height * 0.5, BIRD);
     player.setCollideWorldBounds(true);
     player.setGravityY(BIRD_GRAVITY);
     player.body.allowGravity = false;
@@ -104,7 +104,7 @@ export default class GameScene extends Phaser.Scene {
   createMessage() {
     const { width, height } = this.scale;
 
-    return this.add.image(width * 0.5, height * 0.3, MESSAGE);
+    return this.add.image(width * 0.5, height * 0.4, MESSAGE);
   }
 
   createGround() {
