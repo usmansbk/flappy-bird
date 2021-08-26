@@ -4,6 +4,7 @@ import Background from '../assets/sprites/background.png';
 import Bird from '../assets/sprites/bird.png';
 import Pipe from '../assets/sprites/pipe.png';
 import Message from '../assets/sprites/message.png';
+import GameOver from '../assets/sprites/gameover.png';
 
 const SCENE_NAME = 'game-scene';
 const GROUND = 'ground';
@@ -12,6 +13,7 @@ const BIRD = 'bird';
 const PIPE = 'bottom-pipe';
 const FLAP = 'flap';
 const MESSAGE = 'message';
+const GAME_OVER = 'gameover';
 const PIPE_HEIGHT = 320;
 const PIPE_GAP_HEIGHT = 120;
 const PIPE_GAP_LENGTH = 180;
@@ -24,9 +26,9 @@ const GAME_SPEED = 1.8;
 const ELEVATION_ANGLE = 25;
 const DECLINE_ANGLE_DELTA = 2;
 const MIN_PIPE_HEIGHT = -PIPE_HEIGHT * 0.8;
-const READY_STATE = 'ready';
-const PLAYING_STATE = 'playing';
-const GAME_OVER_STATE = 'gameover';
+const READY_STATE = 'ready-state';
+const PLAYING_STATE = 'playing-state';
+const GAME_OVER_STATE = 'gameover-state';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -63,6 +65,7 @@ export default class GameScene extends Phaser.Scene {
     this.load.image(BACKGROUND, Background);
     this.load.image(PIPE, Pipe);
     this.load.image(MESSAGE, Message);
+    this.load.image(GAME_OVER, GameOver);
     this.load.spritesheet(BIRD, Bird, { frameWidth: 34, frameHeight: 24 });
   }
 
@@ -73,9 +76,10 @@ export default class GameScene extends Phaser.Scene {
     this.ground = this.createGround();
     this.player = this.createPlayer();
     this.message = this.createMessage();
+    this.gameover = this.createGameOverMessage();
 
     this.physics.add.existing(this.ground, true);
-    this.physics.add.collider(this.player, this.ground, this.setGameOver);
+    this.physics.add.collider(this.player, this.ground, this.setGameOver, null, this);
     this.physics.add.collider(this.player, this.pipes.topPipes);
     this.physics.add.collider(this.player, this.pipes.bottomPipes);
 
@@ -89,6 +93,7 @@ export default class GameScene extends Phaser.Scene {
     switch (this.state) {
       case READY_STATE: {
         this.moveGround();
+        this.gameover.visible = false;
         if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
           this.start();
         }
@@ -102,6 +107,7 @@ export default class GameScene extends Phaser.Scene {
         break;
       }
       case GAME_OVER_STATE: {
+        this.gameover.visible = true;
         this.stop();
         break;
       }
@@ -117,7 +123,9 @@ export default class GameScene extends Phaser.Scene {
   }
 
   stop() {
-    this.player.angle = ELEVATION_ANGLE * 2;
+    if (!this.player.body.touching.down) {
+      this.player.angle += DECLINE_ANGLE_DELTA;
+    }
     this.player.anims.stop();
   }
 
@@ -166,6 +174,12 @@ export default class GameScene extends Phaser.Scene {
     const { width, height } = this.scale;
 
     return this.add.image(width * 0.5, height * 0.4, MESSAGE);
+  }
+
+  createGameOverMessage() {
+    const { width, height } = this.scale;
+
+    return this.add.image(width * 0.5, height * 0.4, GAME_OVER);
   }
 
   createGround() {
