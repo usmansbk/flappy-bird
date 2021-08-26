@@ -67,6 +67,7 @@ export default class GameScene extends Phaser.Scene {
     this.player = this.createPlayer();
     this.readyMessage = this.createReadyMessage();
     this.gameoverMessage = this.createGameOverMessage();
+    this.scoreText = this.createScoreText();
 
     this.physics.add.existing(this.ground, true);
     this.physics.add.collider(this.player, this.ground, this.setGameOver, null, this);
@@ -90,6 +91,7 @@ export default class GameScene extends Phaser.Scene {
         this.movePipes();
         this.recyclePipes();
         this.moveGround();
+        this.updateScoreText();
         break;
       }
       case GAME_OVER_STATE: {
@@ -197,6 +199,16 @@ export default class GameScene extends Phaser.Scene {
 
     const message = this.add.image(width * 0.5, height * 0.4, GAME_OVER);
     message.visible = false;
+
+    return message;
+  }
+
+  updateScoreText() {
+    this.scoreText.setText(this.score);
+  }
+
+  createScoreText() {
+    const message = this.add.text(16, 16, this.score, { fontSize: '32px', fill: '#000' });
 
     return message;
   }
