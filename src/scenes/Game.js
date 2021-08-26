@@ -24,10 +24,38 @@ const GAME_SPEED = 1.8;
 const ELEVATION_ANGLE = 25;
 const DECLINE_ANGLE_DELTA = 2;
 const MIN_PIPE_HEIGHT = -PIPE_HEIGHT * 0.8;
+const READY_STATE = 'ready';
+const PLAYING_STATE = 'playing';
+const GAME_OVER_STATE = 'gameover';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
     super(SCENE_NAME);
+    this.state = READY_STATE;
+  }
+
+  setReady() {
+    this.state = READY_STATE;
+  }
+
+  setPlaying() {
+    this.state = PLAYING_STATE;
+  }
+
+  setGameOver() {
+    this.state = GAME_OVER_STATE;
+  }
+
+  isReady() {
+    return this.state === READY_STATE;
+  }
+
+  isPlaying() {
+    return this.state === PLAYING_STATE;
+  }
+
+  isOver() {
+    return this.state === GAME_OVER_STATE;
   }
 
   preload() {
