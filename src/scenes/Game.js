@@ -130,6 +130,8 @@ export default class GameScene extends Phaser.Scene {
     if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
       this.gameoverMessage.visible = false;
       this.state = PLAYING_STATE;
+      const { width, height } = this.scale;
+      this.player.setPosition(width * 0.3, height * 0.5);
     }
   }
 
