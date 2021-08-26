@@ -5,6 +5,16 @@ import Bird from '../assets/sprites/bird.png';
 import Pipe from '../assets/sprites/pipe.png';
 import Message from '../assets/sprites/message.png';
 import GameOver from '../assets/sprites/gameover.png';
+import Zero from '../assets/sprites/0.png';
+import One from '../assets/sprites/1.png';
+import Two from '../assets/sprites/2.png';
+import Three from '../assets/sprites/3.png';
+import Four from '../assets/sprites/4.png';
+import Five from '../assets/sprites/5.png';
+import Six from '../assets/sprites/6.png';
+import Seven from '../assets/sprites/7.png';
+import Eight from '../assets/sprites/8.png';
+import Nine from '../assets/sprites/9.png';
 
 const SCENE_NAME = 'game-scene';
 const GROUND = 'ground';
