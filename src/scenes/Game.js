@@ -184,11 +184,6 @@ export default class GameScene extends Phaser.Scene {
     this.physics.add.staticImage(width * 0.5, height * 0.5, BACKGROUND).setScale(1.5).refreshBody();
   }
 
-  resetPlayer() {
-    const { width, height } = this.scale;
-    this.player.setPosition(width * 0.3, height * 0.5);
-  }
-
   createPlayer() {
     const { width, height } = this.scale;
     const player = this.physics.add.sprite(width * 0.3, height * 0.5, BIRD);
