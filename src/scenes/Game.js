@@ -47,6 +47,7 @@ export default class GameScene extends Phaser.Scene {
     super(SCENE_NAME);
     this.state = READY_STATE;
     this.score = 0;
+    this.digits = String(this.score).split('');
   }
 
   setReady() {
@@ -234,8 +235,7 @@ export default class GameScene extends Phaser.Scene {
 
     const x = width * 0.5;
     const y = height * 0.1;
-    const digits = String(this.score).split('');
-    digits.forEach((digit, index) => {
+    this.digits.forEach((digit, index) => {
       score.create(x + (index * DIGIT_WIDTH), y, digit);
     });
 
@@ -301,6 +301,7 @@ export default class GameScene extends Phaser.Scene {
     const { right } = this.player.getBounds();
     if (pipeMiddle < right && this.lastRecordedPipe !== currentPipe) {
       this.score += 1;
+      this.digits = String(this.score).split('');
       this.lastRecordedPipe = currentPipe;
     }
   }
