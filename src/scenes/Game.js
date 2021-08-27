@@ -84,7 +84,7 @@ export default class GameScene extends Phaser.Scene {
     this.physics.add.collider(this.player, this.ground, this.setGameOver, null, this);
     this.physics.add.collider(this.player, this.pipes.topPipes, this.setGameOver, null, this);
     this.physics.add.collider(this.player, this.pipes.bottomPipes, this.setGameOver, null, this);
-    this.restartButton.on('pointerup', this.restart, this);
+    this.restartButton.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this.restart, this);
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
