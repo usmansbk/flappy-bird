@@ -78,11 +78,13 @@ export default class GameScene extends Phaser.Scene {
     this.gameoverMessage = this.createGameOverMessage();
     this.scoreText = this.createScoreText();
     this.bestScoreText = this.createBestScoreText();
+    this.restartButton = this.createRestartButton();
 
     this.physics.add.existing(this.ground, true);
     this.physics.add.collider(this.player, this.ground, this.setGameOver, null, this);
     this.physics.add.collider(this.player, this.pipes.topPipes, this.setGameOver, null, this);
     this.physics.add.collider(this.player, this.pipes.bottomPipes, this.setGameOver, null, this);
+    this.restartButton.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this.restart, this);
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -115,7 +117,7 @@ export default class GameScene extends Phaser.Scene {
     }
   }
 
-  handleInput() {
+  handleInputs() {
     if (this.isTapped()) {
       switch (this.state) {
         case READY_STATE:
@@ -124,23 +126,24 @@ export default class GameScene extends Phaser.Scene {
         case PLAYING_STATE:
           this.flap();
           break;
-        case GAME_OVER_STATE:
-          this.restart();
-          break;
         default:
           break;
       }
+    }
+    if (this.state === GAME_OVER_STATE && this.cursors.space.isDown) {
+      this.restart();
     }
   }
 
   update() {
     this.animate();
-    this.handleInput();
+    this.handleInputs();
   }
 
   setReady() {
     this.gameoverMessage.visible = false;
     this.bestScoreText.visible = false;
+    this.restartButton.visible = false;
     this.player.body.allowGravity = false;
     this.player.anims.play(FLAP, true);
     this.state = READY_STATE;
@@ -155,11 +158,12 @@ export default class GameScene extends Phaser.Scene {
   setGameOver() {
     this.gameoverMessage.visible = true;
     this.bestScoreText.visible = true;
+    this.restartButton.visible = true;
     this.player.anims.stop();
     this.state = GAME_OVER_STATE;
     const bestScore = localStorage.getItem(BEST_SCORE_KEY) || 0;
     localStorage.setItem(BEST_SCORE_KEY, Math.max(this.score, bestScore));
-    this.bestScoreText.setText(`Best Score : ${bestScore}`);
+    this.bestScoreText.setText(`High Score : ${bestScore}`);
   }
 
   restart() {
@@ -192,6 +196,19 @@ export default class GameScene extends Phaser.Scene {
   movePipes() {
     this.pipes.topPipes.incX(-GAME_SPEED);
     this.pipes.bottomPipes.incX(-GAME_SPEED);
+  }
+
+  createRestartButton() {
+    const { width, height } = this.scale;
+    const button = this.add.text(width * 0.5, height * 0.6, 'Restart', {
+      fontFamily: 'Teko',
+      fontSize: 24,
+      backgroundColor: '#e06119',
+      padding: 8,
+      color: '#fff',
+    }).setOrigin(0.5).setInteractive();
+
+    return button;
   }
 
   createBackground() {
@@ -253,7 +270,7 @@ export default class GameScene extends Phaser.Scene {
       fontSize: 25,
       stroke: '#000',
       strokeThickness: 4,
-    }).setOrigin(0.5, 0.5);
+    }).setOrigin(0.5);
 
     return score;
   }

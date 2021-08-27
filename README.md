@@ -47,10 +47,10 @@ npm start
 npm run build
 ```
 
-### Run tests
+### Run Linters
 
 ```bash
-npm test
+npm run lint 
 ```
 
 ## Authors
