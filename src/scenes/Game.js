@@ -115,7 +115,7 @@ export default class GameScene extends Phaser.Scene {
     }
   }
 
-  handleInput() {
+  handleTap() {
     if (this.isTapped()) {
       switch (this.state) {
         case READY_STATE:
@@ -135,7 +135,7 @@ export default class GameScene extends Phaser.Scene {
 
   update() {
     this.animate();
-    this.handleInput();
+    this.handleTap();
   }
 
   setReady() {
