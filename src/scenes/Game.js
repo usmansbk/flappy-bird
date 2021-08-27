@@ -209,11 +209,15 @@ export default class GameScene extends Phaser.Scene {
     const score = this.physics.add.staticGroup();
 
     const x = width * 0.5;
-    const y = height * 0.1;
+    const y = height * 0.08;
     const digits = String(this.score).split('');
+    const length = digits.length * DIGIT_WIDTH;
+    const offsetX = x - length / 2;
     digits.forEach((digit, index) => {
-      score.create(x + (index * DIGIT_WIDTH), y, digit);
+      score.create(offsetX + (index * DIGIT_WIDTH), y, digit);
     });
+
+    score.setOrigin(0, 0);
 
     return score;
   }
