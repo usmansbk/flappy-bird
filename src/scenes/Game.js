@@ -90,7 +90,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   isTapped() {
-    return this.cursors.space.isDown || this.input.activePointer.isDown;
+    return this.cursors.space.isDown || this.input.activePointer.primaryDown;
   }
 
   animate() {
@@ -121,11 +121,11 @@ export default class GameScene extends Phaser.Scene {
         case READY_STATE:
           this.setPlaying();
           break;
-        case GAME_OVER_STATE:
-          this.restart();
-          break;
         case PLAYING_STATE:
           this.flap();
+          break;
+        case GAME_OVER_STATE:
+          this.restart();
           break;
         default:
           break;
@@ -163,10 +163,9 @@ export default class GameScene extends Phaser.Scene {
   }
 
   restart() {
-    this.scene.restart();
     this.clearScore();
+    this.scene.restart();
     this.setReady();
-    console.log('restart');
   }
 
   clearScore() {
