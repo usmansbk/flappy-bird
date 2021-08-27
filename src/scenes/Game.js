@@ -204,7 +204,7 @@ export default class GameScene extends Phaser.Scene {
 
   createRestartButton() {
     const { width, height } = this.scale;
-    const button = this.add.text(width * 0.5, height * 0.6, 'Restart', {
+    const button = this.add.text(width * 0.5, height * 0.6, 'Play', {
       fontFamily: 'Teko',
       fontSize: BUTTON_FONT_SIZE,
       backgroundColor: BUTTON_COLOR,
