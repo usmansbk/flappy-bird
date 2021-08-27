@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Press+Start+2P&family=Teko:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400&family=Press+Start+2P&family=Teko:wght@400;500;600;700&display=swap');
 * {
   margin: 0;
   padding: 0;
@@ -43,4 +43,11 @@ a {
 
 .sections {
     margin-top: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.game-play {
+    display: flex;
 }
