@@ -27,6 +27,12 @@ a {
   color: #fcc54f;
 }
 
+.app-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .nav-brand {
   font-size: 40px;
 }
@@ -48,6 +54,11 @@ a {
   gap: 40px;
 }
 
-.game-play {
-  display: flex;
+.play-button {
+  padding: 8px 20px;
+  background-color: #ef5d18;
+  border: solid 2px #fff;
+  font-weight: 700;
+  font-size: 24px;
+  cursor: pointer;
 }
