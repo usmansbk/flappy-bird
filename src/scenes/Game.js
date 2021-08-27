@@ -41,6 +41,7 @@ const READY_STATE = 'ready-state';
 const PLAYING_STATE = 'playing-state';
 const GAME_OVER_STATE = 'gameover-state';
 const DIGIT_WIDTH = 24;
+const BEST_SCORE_KEY = 'best-score';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -130,6 +131,8 @@ export default class GameScene extends Phaser.Scene {
     this.gameoverMessage.visible = true;
     this.player.anims.stop();
     this.state = GAME_OVER_STATE;
+    const bestScore = localStorage.getItem(BEST_SCORE_KEY) || 0;
+    localStorage.setItem(BEST_SCORE_KEY, Math.max(this.score, bestScore));
   }
 
   onRestart() {
