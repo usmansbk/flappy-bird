@@ -89,7 +89,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   isTapped() {
-    return this.cursors.space.isDown || this.input.activePointer.leftButtonDown();
+    return this.cursors.space.isDown || this.input.activePointer.isDown;
   }
 
   update() {
