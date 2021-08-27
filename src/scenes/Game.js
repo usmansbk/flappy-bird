@@ -129,9 +129,6 @@ export default class GameScene extends Phaser.Scene {
         case PLAYING_STATE:
           this.flap();
           break;
-        // case GAME_OVER_STATE:
-        //   this.restart();
-        //   break;
         default:
           break;
       }
