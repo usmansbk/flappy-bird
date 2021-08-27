@@ -77,6 +77,7 @@ export default class GameScene extends Phaser.Scene {
     this.readyMessage = this.createReadyMessage();
     this.gameoverMessage = this.createGameOverMessage();
     this.scoreText = this.createScoreText();
+    this.bestScoreText = this.createBestScoreText();
 
     this.physics.add.existing(this.ground, true);
     this.physics.add.collider(this.player, this.ground, this.setGameOver, null, this);
@@ -120,6 +121,7 @@ export default class GameScene extends Phaser.Scene {
 
   setReady() {
     this.gameoverMessage.visible = false;
+    this.bestScoreText.visible = false;
     this.player.body.allowGravity = false;
     this.player.anims.play(FLAP, true);
     this.state = READY_STATE;
@@ -133,10 +135,12 @@ export default class GameScene extends Phaser.Scene {
 
   setGameOver() {
     this.gameoverMessage.visible = true;
+    this.bestScoreText.visible = true;
     this.player.anims.stop();
     this.state = GAME_OVER_STATE;
     const bestScore = localStorage.getItem(BEST_SCORE_KEY) || 0;
     localStorage.setItem(BEST_SCORE_KEY, Math.max(this.score, bestScore));
+    this.bestScoreText.setText(`Best: ${bestScore}`);
   }
 
   onRestart() {
@@ -225,6 +229,13 @@ export default class GameScene extends Phaser.Scene {
     });
 
     score.setOrigin(0, 0);
+
+    return score;
+  }
+
+  createBestScoreText() {
+    const { width, height } = this.scale;
+    const score = this.add.text(width * 0.5, height * 0.5, 'Best');
 
     return score;
   }
