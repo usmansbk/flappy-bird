@@ -51,9 +51,3 @@ a {
 .game-play {
   display: flex;
 }
-
-ul {
-  display: flex;
-  flex-direction: row;
-  gap: 40px;
-}
