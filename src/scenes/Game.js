@@ -88,11 +88,15 @@ export default class GameScene extends Phaser.Scene {
     this.setReady();
   }
 
+  isTapped() {
+    return this.cursors.space.isDown || this.input.activePointer.leftButtonDown();
+  }
+
   update() {
     switch (this.state) {
       case READY_STATE: {
         this.moveGround();
-        if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
+        if (this.isTapped()) {
           this.setPlaying();
         }
         break;
@@ -136,7 +140,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   onRestart() {
-    if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
+    if (this.isTapped()) {
       this.scene.restart();
       this.clearScore();
       this.setReady();
