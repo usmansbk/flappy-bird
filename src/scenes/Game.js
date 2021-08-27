@@ -93,17 +93,14 @@ export default class GameScene extends Phaser.Scene {
     return this.cursors.space.isDown || this.input.activePointer.isDown;
   }
 
-  update() {
+  animate() {
     switch (this.state) {
       case READY_STATE: {
         this.moveGround();
-        if (this.isTapped()) {
-          this.setPlaying();
-        }
         break;
       }
       case PLAYING_STATE: {
-        this.flap();
+        this.fall();
         this.movePipes();
         this.loopPipes();
         this.moveGround();
@@ -111,14 +108,34 @@ export default class GameScene extends Phaser.Scene {
       }
       case GAME_OVER_STATE: {
         this.fall();
-        if (this.isTapped()) {
-          this.restart();
-        }
         break;
       }
       default:
         break;
     }
+  }
+
+  handleInput() {
+    if (this.isTapped()) {
+      switch (this.state) {
+        case READY_STATE:
+          this.setPlaying();
+          break;
+        case GAME_OVER_STATE:
+          this.restart();
+          break;
+        case PLAYING_STATE:
+          this.flap();
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
+  update() {
+    this.animate();
+    this.handleInput();
   }
 
   setReady() {
@@ -149,6 +166,7 @@ export default class GameScene extends Phaser.Scene {
     this.scene.restart();
     this.clearScore();
     this.setReady();
+    console.log('restart');
   }
 
   clearScore() {
@@ -157,13 +175,9 @@ export default class GameScene extends Phaser.Scene {
   }
 
   flap() {
-    if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
-      this.player.setVelocityY(BIRD_VELOCITY);
-      this.player.anims.play(FLAP, true);
-      this.player.angle = -ELEVATION_ANGLE;
-    } else if (!this.player.body.touching.down) {
-      this.fall();
-    }
+    this.player.setVelocityY(BIRD_VELOCITY);
+    this.player.anims.play(FLAP, true);
+    this.player.angle = -ELEVATION_ANGLE;
   }
 
   fall() {
