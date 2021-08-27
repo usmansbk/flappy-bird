@@ -17,15 +17,26 @@ a {
 }
 
 .container {
-  padding: 16px;
+  padding: 16px 24px;
+}
+
+.color-primary {
+  color: #fcc54f;
 }
 
 .nav-brand {
-  color: #fcc54f;
   font-size: 40px;
 }
 
 .body-1 {
     font-size: 20px;
     line-height: 24px;
+}
+
+.body-4 {
+    font-size: 30px;
+}
+
+.sections {
+    margin-top: 48px;
 }
