@@ -66,6 +66,7 @@ export default class GameScene extends Phaser.Scene {
     this.load.image('7', Seven);
     this.load.image('8', Eight);
     this.load.image('9', Nine);
+    this.load.webfont('Teko', 'https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Teko:wght@600;700&display=swap');
   }
 
   create() {
