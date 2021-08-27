@@ -142,6 +142,7 @@ export default class GameScene extends Phaser.Scene {
   setReady() {
     this.gameoverMessage.visible = false;
     this.bestScoreText.visible = false;
+    this.restartButton.visible = false;
     this.player.body.allowGravity = false;
     this.player.anims.play(FLAP, true);
     this.state = READY_STATE;
@@ -156,6 +157,7 @@ export default class GameScene extends Phaser.Scene {
   setGameOver() {
     this.gameoverMessage.visible = true;
     this.bestScoreText.visible = true;
+    this.restartButton.visible = true;
     this.player.anims.stop();
     this.state = GAME_OVER_STATE;
     const bestScore = localStorage.getItem(BEST_SCORE_KEY) || 0;
