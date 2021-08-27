@@ -15,33 +15,34 @@ import Six from '../assets/sprites/6.png';
 import Seven from '../assets/sprites/7.png';
 import Eight from '../assets/sprites/8.png';
 import Nine from '../assets/sprites/9.png';
-
-const SCENE_NAME = 'game-scene';
-const GROUND = 'ground';
-const BACKGROUND = 'background';
-const BIRD = 'bird';
-const PIPE = 'bottom-pipe';
-const FLAP = 'flap';
-const MESSAGE = 'message';
-const GAME_OVER = 'gameover';
-const PIPE_HEIGHT = 320;
-const PIPE_GAP_HEIGHT = 120;
-const PIPE_GAP_LENGTH = 180;
-const PIPE_PAIRS = 3;
-const GROUND_HEIGHT = 112;
-const FRAME_RATE = 10;
-const BIRD_GRAVITY = 1000;
-const BIRD_VELOCITY = -340;
-const GAME_SPEED = 2;
-const ELEVATION_ANGLE = 25;
-const FALL_ANGLE = 90;
-const DECLINE_ANGLE_DELTA = 2;
-const MIN_PIPE_HEIGHT = -PIPE_HEIGHT * 0.75;
-const READY_STATE = 'ready-state';
-const PLAYING_STATE = 'playing-state';
-const GAME_OVER_STATE = 'gameover-state';
-const DIGIT_WIDTH = 24;
-const BEST_SCORE_KEY = 'best-score';
+import {
+  SCENE_NAME,
+  GROUND,
+  BACKGROUND,
+  BIRD,
+  PIPE,
+  FLAP,
+  MESSAGE,
+  GAME_OVER,
+  PIPE_HEIGHT,
+  PIPE_GAP_HEIGHT,
+  PIPE_GAP_LENGTH,
+  PIPE_PAIRS,
+  GROUND_HEIGHT,
+  FRAME_RATE,
+  BIRD_GRAVITY,
+  BIRD_VELOCITY,
+  GAME_SPEED,
+  ELEVATION_ANGLE,
+  FALL_ANGLE,
+  DECLINE_ANGLE_DELTA,
+  MIN_PIPE_HEIGHT,
+  READY_STATE,
+  PLAYING_STATE,
+  GAME_OVER_STATE,
+  DIGIT_WIDTH,
+  BEST_SCORE_KEY,
+} from './constants.js';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
