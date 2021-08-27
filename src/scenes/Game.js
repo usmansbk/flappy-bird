@@ -41,6 +41,7 @@ const READY_STATE = 'ready-state';
 const PLAYING_STATE = 'playing-state';
 const GAME_OVER_STATE = 'gameover-state';
 const DIGIT_WIDTH = 24;
+const BEST_SCORE_KEY = 'best-score';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -76,6 +77,7 @@ export default class GameScene extends Phaser.Scene {
     this.readyMessage = this.createReadyMessage();
     this.gameoverMessage = this.createGameOverMessage();
     this.scoreText = this.createScoreText();
+    this.bestScoreText = this.createBestScoreText();
 
     this.physics.add.existing(this.ground, true);
     this.physics.add.collider(this.player, this.ground, this.setGameOver, null, this);
@@ -87,25 +89,25 @@ export default class GameScene extends Phaser.Scene {
     this.setReady();
   }
 
-  update() {
+  isTapped() {
+    return this.cursors.space.isDown || this.input.activePointer.primaryDown;
+  }
+
+  animate() {
     switch (this.state) {
       case READY_STATE: {
         this.moveGround();
-        if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
-          this.setPlaying();
-        }
         break;
       }
       case PLAYING_STATE: {
-        this.flap();
+        this.fall();
         this.movePipes();
-        this.recyclePipes();
+        this.loopPipes();
         this.moveGround();
         break;
       }
       case GAME_OVER_STATE: {
         this.fall();
-        this.onRestart();
         break;
       }
       default:
@@ -113,8 +115,32 @@ export default class GameScene extends Phaser.Scene {
     }
   }
 
+  handleInput() {
+    if (this.isTapped()) {
+      switch (this.state) {
+        case READY_STATE:
+          this.setPlaying();
+          break;
+        case PLAYING_STATE:
+          this.flap();
+          break;
+        case GAME_OVER_STATE:
+          this.restart();
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
+  update() {
+    this.animate();
+    this.handleInput();
+  }
+
   setReady() {
     this.gameoverMessage.visible = false;
+    this.bestScoreText.visible = false;
     this.player.body.allowGravity = false;
     this.player.anims.play(FLAP, true);
     this.state = READY_STATE;
@@ -128,16 +154,18 @@ export default class GameScene extends Phaser.Scene {
 
   setGameOver() {
     this.gameoverMessage.visible = true;
+    this.bestScoreText.visible = true;
     this.player.anims.stop();
     this.state = GAME_OVER_STATE;
+    const bestScore = localStorage.getItem(BEST_SCORE_KEY) || 0;
+    localStorage.setItem(BEST_SCORE_KEY, Math.max(this.score, bestScore));
+    this.bestScoreText.setText(`Best Score : ${bestScore}`);
   }
 
-  onRestart() {
-    if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
-      this.scene.restart();
-      this.clearScore();
-      this.setReady();
-    }
+  restart() {
+    this.clearScore();
+    this.scene.restart();
+    this.setReady();
   }
 
   clearScore() {
@@ -146,13 +174,9 @@ export default class GameScene extends Phaser.Scene {
   }
 
   flap() {
-    if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
-      this.player.setVelocityY(BIRD_VELOCITY);
-      this.player.anims.play(FLAP, true);
-      this.player.angle = -ELEVATION_ANGLE;
-    } else if (!this.player.body.touching.down) {
-      this.fall();
-    }
+    this.player.setVelocityY(BIRD_VELOCITY);
+    this.player.anims.play(FLAP, true);
+    this.player.angle = -ELEVATION_ANGLE;
   }
 
   fall() {
@@ -218,6 +242,18 @@ export default class GameScene extends Phaser.Scene {
     });
 
     score.setOrigin(0, 0);
+
+    return score;
+  }
+
+  createBestScoreText() {
+    const { width, height } = this.scale;
+    const score = this.add.text(width * 0.5, height * 0.5, '', {
+      fontFamily: 'Teko',
+      fontSize: 25,
+      stroke: '#000',
+      strokeThickness: 4,
+    }).setOrigin(0.5, 0.5);
 
     return score;
   }
@@ -291,7 +327,7 @@ export default class GameScene extends Phaser.Scene {
     }
   }
 
-  recyclePipes() {
+  loopPipes() {
     this.pipes.bottomPipes.getChildren().forEach((bottom, index) => {
       const { right, centerX } = bottom.getBounds();
       if (right < 0) {
