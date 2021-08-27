@@ -250,10 +250,10 @@ export default class GameScene extends Phaser.Scene {
     const { width, height } = this.scale;
     const score = this.add.text(width * 0.5, height * 0.5, '', {
       fontFamily: 'Teko',
-      fontSize: 24,
+      fontSize: 25,
       stroke: '#000',
       strokeThickness: 4,
-    });
+    }).setOrigin(0.5, 0.5);
 
     return score;
   }
