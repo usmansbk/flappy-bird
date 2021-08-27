@@ -159,7 +159,7 @@ export default class GameScene extends Phaser.Scene {
     this.state = GAME_OVER_STATE;
     const bestScore = localStorage.getItem(BEST_SCORE_KEY) || 0;
     localStorage.setItem(BEST_SCORE_KEY, Math.max(this.score, bestScore));
-    this.bestScoreText.setText(`Best: ${bestScore}`);
+    this.bestScoreText.setText(`Best Score : ${bestScore}`);
   }
 
   restart() {
@@ -248,9 +248,11 @@ export default class GameScene extends Phaser.Scene {
 
   createBestScoreText() {
     const { width, height } = this.scale;
-    const score = this.add.text(width * 0.5, height * 0.5, 'Best', {
+    const score = this.add.text(width * 0.5, height * 0.5, '', {
       fontFamily: 'Teko',
-      fontSize: 18,
+      fontSize: 24,
+      stroke: '#000',
+      strokeThickness: 4,
     });
 
     return score;
