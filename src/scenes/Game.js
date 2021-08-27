@@ -45,21 +45,7 @@ const DIGIT_WIDTH = 24;
 export default class GameScene extends Phaser.Scene {
   constructor() {
     super(SCENE_NAME);
-    this.state = READY_STATE;
     this.score = 0;
-    this.digits = String(this.score).split('');
-  }
-
-  setReady() {
-    this.state = READY_STATE;
-  }
-
-  setPlaying() {
-    this.state = PLAYING_STATE;
-  }
-
-  setGameOver() {
-    this.state = GAME_OVER_STATE;
   }
 
   preload() {
@@ -97,15 +83,17 @@ export default class GameScene extends Phaser.Scene {
     this.physics.add.collider(this.player, this.pipes.bottomPipes, this.setGameOver, null, this);
 
     this.cursors = this.input.keyboard.createCursorKeys();
+
+    this.setReady();
   }
 
   update() {
     switch (this.state) {
       case READY_STATE: {
-        this.readyMessage.visible = true;
-        this.player.anims.play(FLAP, true);
         this.moveGround();
-        this.onStart();
+        if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
+          this.setPlaying();
+        }
         break;
       }
       case PLAYING_STATE: {
@@ -113,12 +101,10 @@ export default class GameScene extends Phaser.Scene {
         this.movePipes();
         this.recyclePipes();
         this.moveGround();
-        this.updateScoreText();
         break;
       }
       case GAME_OVER_STATE: {
-        this.gameoverMessage.visible = true;
-        this.onStop();
+        this.fall();
         this.onRestart();
         break;
       }
@@ -127,17 +113,22 @@ export default class GameScene extends Phaser.Scene {
     }
   }
 
-  onStart() {
-    if (this.cursors.space.isDown || this.input.activePointer.leftButtonDown()) {
-      this.readyMessage.visible = false;
-      this.player.body.allowGravity = true;
-      this.setPlaying();
-    }
+  setReady() {
+    this.readyMessage.visible = true;
+    this.player.anims.play(FLAP, true);
+    this.state = READY_STATE;
   }
 
-  onStop() {
+  setPlaying() {
+    this.readyMessage.visible = false;
+    this.player.body.allowGravity = true;
+    this.state = PLAYING_STATE;
+  }
+
+  setGameOver() {
+    this.gameoverMessage.visible = true;
     this.player.anims.stop();
-    this.fall();
+    this.state = GAME_OVER_STATE;
   }
 
   onRestart() {
@@ -150,7 +141,6 @@ export default class GameScene extends Phaser.Scene {
 
   clearScore() {
     this.score = 0;
-    this.digits = String(this.score).split('');
     this.lastRecordedPipe = null;
   }
 
@@ -219,18 +209,14 @@ export default class GameScene extends Phaser.Scene {
     return message;
   }
 
-  updateScoreText() {
-    this.scoreText.clear(true, true);
-    this.scoreText = this.createScoreText();
-  }
-
   createScoreText() {
     const { width, height } = this.scale;
     const score = this.physics.add.staticGroup();
 
     const x = width * 0.5;
     const y = height * 0.1;
-    this.digits.forEach((digit, index) => {
+    const digits = String(this.score).split('');
+    digits.forEach((digit, index) => {
       score.create(x + (index * DIGIT_WIDTH), y, digit);
     });
 
@@ -292,12 +278,17 @@ export default class GameScene extends Phaser.Scene {
     bottom.y = bottomY;
   }
 
+  updateScoreText() {
+    this.scoreText.clear(true, true);
+    this.scoreText = this.createScoreText();
+  }
+
   updateScore(pipeMiddle, currentPipe) {
     const { right } = this.player.getBounds();
     if (pipeMiddle < right && this.lastRecordedPipe !== currentPipe) {
       this.score += 1;
-      this.digits = String(this.score).split('');
       this.lastRecordedPipe = currentPipe;
+      this.updateScoreText();
     }
   }
 
