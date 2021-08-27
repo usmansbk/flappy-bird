@@ -114,7 +114,8 @@ export default class GameScene extends Phaser.Scene {
   }
 
   setReady() {
-    this.readyMessage.visible = true;
+    this.gameoverMessage.visible = false;
+    this.player.body.allowGravity = false;
     this.player.anims.play(FLAP, true);
     this.state = READY_STATE;
   }
@@ -194,19 +195,13 @@ export default class GameScene extends Phaser.Scene {
   createReadyMessage() {
     const { width, height } = this.scale;
 
-    const message = this.add.image(width * 0.5, height * 0.4, MESSAGE);
-    message.visible = false;
-
-    return message;
+    return this.add.image(width * 0.5, height * 0.4, MESSAGE);
   }
 
   createGameOverMessage() {
     const { width, height } = this.scale;
 
-    const message = this.add.image(width * 0.5, height * 0.4, GAME_OVER);
-    message.visible = false;
-
-    return message;
+    return this.add.image(width * 0.5, height * 0.4, GAME_OVER);
   }
 
   createScoreText() {
