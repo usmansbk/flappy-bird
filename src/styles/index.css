@@ -62,3 +62,9 @@ a {
   font-size: 25px;
   cursor: pointer;
 }
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
