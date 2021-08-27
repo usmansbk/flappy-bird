@@ -42,6 +42,9 @@ const PLAYING_STATE = 'playing-state';
 const GAME_OVER_STATE = 'gameover-state';
 const DIGIT_WIDTH = 24;
 const BEST_SCORE_KEY = 'best-score';
+const BUTTON_COLOR = '#e06119';
+const BUTTON_TEXT_COLOR = '#fff';
+const BUTTON_FONT_SIZE = 24;
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -66,6 +69,7 @@ export default class GameScene extends Phaser.Scene {
     this.load.image('7', Seven);
     this.load.image('8', Eight);
     this.load.image('9', Nine);
+    this.load.webfont('Teko', 'https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Teko:wght@600;700&display=swap');
   }
 
   create() {
@@ -202,10 +206,10 @@ export default class GameScene extends Phaser.Scene {
     const { width, height } = this.scale;
     const button = this.add.text(width * 0.5, height * 0.6, 'Restart', {
       fontFamily: 'Teko',
-      fontSize: 24,
-      backgroundColor: '#e06119',
+      fontSize: BUTTON_FONT_SIZE,
+      backgroundColor: BUTTON_COLOR,
       padding: 8,
-      color: '#fff',
+      color: BUTTON_TEXT_COLOR,
     }).setOrigin(0.5).setInteractive();
 
     return button;

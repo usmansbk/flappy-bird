@@ -1,12 +1,14 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 module.exports = {
   mode: 'production',
-  entry: './src/index.js',
+  entry: {
+    main: './src/index.js',
+    game: './src/game.js',
+  },
   output: {
-    filename: 'main.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
   },
@@ -26,9 +28,17 @@ module.exports = {
     ],
   },
   plugins: [
-    new FaviconsWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: './src/index.html',
+      chunks: ['main'],
+      filename: 'index.html',
+      favicon: './logo.png',
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/game.html',
+      chunks: ['game'],
+      filename: 'game.html',
+      favicon: './logo.png',
     }),
   ],
 };
