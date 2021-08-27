@@ -1,10 +1,31 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Teko:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Teko:wght@400;500;600;700&display=swap');
 
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
+  font-family: "Teko", sans-serif;
+  color: white;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
 .root {
-    background-color: #1e272e;
+  background-color: #1e272e;
+}
+
+.container {
+  padding: 16px;
+}
+
+.nav-brand {
+  color: #fcc54f;
+  font-size: 40px;
+}
+
+.body-1 {
+    font-size: 20px;
+    line-height: 24px;
 }
