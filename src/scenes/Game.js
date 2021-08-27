@@ -111,7 +111,9 @@ export default class GameScene extends Phaser.Scene {
       }
       case GAME_OVER_STATE: {
         this.fall();
-        this.onRestart();
+        if (this.isTapped()) {
+          this.restart();
+        }
         break;
       }
       default:
@@ -143,12 +145,10 @@ export default class GameScene extends Phaser.Scene {
     this.bestScoreText.setText(`Best: ${bestScore}`);
   }
 
-  onRestart() {
-    if (this.isTapped()) {
-      this.scene.restart();
-      this.clearScore();
-      this.setReady();
-    }
+  restart() {
+    this.scene.restart();
+    this.clearScore();
+    this.setReady();
   }
 
   clearScore() {
