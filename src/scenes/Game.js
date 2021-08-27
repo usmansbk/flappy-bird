@@ -15,6 +15,7 @@ import Six from '../assets/sprites/6.png';
 import Seven from '../assets/sprites/7.png';
 import Eight from '../assets/sprites/8.png';
 import Nine from '../assets/sprites/9.png';
+import StartButton from '../assets/sprites/start.png';
 
 const SCENE_NAME = 'game-scene';
 const GROUND = 'ground';
@@ -42,6 +43,7 @@ const PLAYING_STATE = 'playing-state';
 const GAME_OVER_STATE = 'gameover-state';
 const DIGIT_WIDTH = 24;
 const BEST_SCORE_KEY = 'best-score';
+const START_BUTTON = 'start-button';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -55,6 +57,7 @@ export default class GameScene extends Phaser.Scene {
     this.load.image(PIPE, Pipe);
     this.load.image(MESSAGE, Message);
     this.load.image(GAME_OVER, GameOver);
+    this.load.image(START_BUTTON, StartButton);
     this.load.spritesheet(BIRD, Bird, { frameWidth: 34, frameHeight: 24 });
     this.load.image('0', Zero);
     this.load.image('1', One);
@@ -203,7 +206,7 @@ export default class GameScene extends Phaser.Scene {
     const button = this.add.text(width * 0.5, height * 0.6, 'Restart', {
       fontFamily: 'Teko',
       fontSize: 24,
-      backgroundColor: '#dd7746',
+      backgroundColor: '#e06119',
       padding: 8,
       color: '#fff',
     }).setOrigin(0.5).setInteractive();
