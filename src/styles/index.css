@@ -31,12 +31,12 @@ a {
   font-size: 40px;
 }
 
-.body-1 {
-    font-size: 20px;
-    line-height: 24px;
+.caption {
+    font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
 }
 
-.body-2 {
+.body {
     font-size: 20px;
     font-family: 'Montserrat', sans-serif;
 }
