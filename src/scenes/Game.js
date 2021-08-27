@@ -84,6 +84,7 @@ export default class GameScene extends Phaser.Scene {
     this.physics.add.collider(this.player, this.ground, this.setGameOver, null, this);
     this.physics.add.collider(this.player, this.pipes.topPipes, this.setGameOver, null, this);
     this.physics.add.collider(this.player, this.pipes.bottomPipes, this.setGameOver, null, this);
+    this.restartButton.on('pointerup', this.restart);
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -125,9 +126,9 @@ export default class GameScene extends Phaser.Scene {
         case PLAYING_STATE:
           this.flap();
           break;
-        case GAME_OVER_STATE:
-          this.restart();
-          break;
+        // case GAME_OVER_STATE:
+        //   this.restart();
+        //   break;
         default:
           break;
       }
