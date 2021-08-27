@@ -99,7 +99,7 @@ export default class GameScene extends Phaser.Scene {
       case PLAYING_STATE: {
         this.flap();
         this.movePipes();
-        this.recyclePipes();
+        this.loopPipes();
         this.moveGround();
         break;
       }
@@ -291,7 +291,7 @@ export default class GameScene extends Phaser.Scene {
     }
   }
 
-  recyclePipes() {
+  loopPipes() {
     this.pipes.bottomPipes.getChildren().forEach((bottom, index) => {
       const { right, centerX } = bottom.getBounds();
       if (right < 0) {
