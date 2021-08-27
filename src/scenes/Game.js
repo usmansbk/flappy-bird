@@ -248,7 +248,10 @@ export default class GameScene extends Phaser.Scene {
 
   createBestScoreText() {
     const { width, height } = this.scale;
-    const score = this.add.text(width * 0.5, height * 0.5, 'Best');
+    const score = this.add.text(width * 0.5, height * 0.5, 'Best', {
+      fontFamily: 'Teko',
+      fontSize: 18,
+    });
 
     return score;
   }
