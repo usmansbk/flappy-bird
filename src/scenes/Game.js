@@ -139,9 +139,11 @@ export default class GameScene extends Phaser.Scene {
     this.player.body.allowGravity = false;
     this.player.anims.play(FLAP, true);
     this.state = READY_STATE;
+    this.playerIdle = this.idlePlayer();
   }
 
   setPlaying() {
+    this.playerIdle.stop();
     this.readyMessage.visible = false;
     this.player.body.allowGravity = true;
     this.state = PLAYING_STATE;
@@ -149,16 +151,35 @@ export default class GameScene extends Phaser.Scene {
 
   setGameOver() {
     if (this.state !== GAME_OVER_STATE) {
+      this.state = GAME_OVER_STATE;
       this.gameoverMessage.visible = true;
       this.bestScoreText.visible = true;
       this.restartButton.visible = true;
       this.hitSound.play();
       this.player.anims.stop();
-      this.state = GAME_OVER_STATE;
       const bestScore = localStorage.getItem(BEST_SCORE_KEY) || 0;
       localStorage.setItem(BEST_SCORE_KEY, Math.max(this.score, bestScore));
       this.bestScoreText.setText(`High Score : ${bestScore}`);
+      this.slideButton();
     }
+  }
+
+  idlePlayer() {
+    return this.tweens.add({
+      targets: this.player,
+      y: this.player.y + 5,
+      duration: 300,
+      yoyo: true,
+      repeat: -1,
+    });
+  }
+
+  slideButton() {
+    this.tweens.add({
+      targets: this.restartButton,
+      y: this.scale.height * 0.6,
+      duration: 500,
+    });
   }
 
   handleFall() {
@@ -203,7 +224,7 @@ export default class GameScene extends Phaser.Scene {
 
   createRestartButton() {
     const { width, height } = this.scale;
-    const button = this.add.text(width * 0.5, height * 0.6, 'Play', {
+    const button = this.add.text(width * 0.5, height * 0.8, 'Restart', {
       fontFamily: 'Teko',
       stroke: '#000',
       strokeThickness: 4,
