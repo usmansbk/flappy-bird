@@ -158,6 +158,12 @@ export default class GameScene extends Phaser.Scene {
       const bestScore = localStorage.getItem(BEST_SCORE_KEY) || 0;
       localStorage.setItem(BEST_SCORE_KEY, Math.max(this.score, bestScore));
       this.bestScoreText.setText(`High Score : ${bestScore}`);
+
+      this.tweens.add({
+        targets: this.restartButton,
+        y: this.scale.height * 0.6,
+        duration: 500,
+      });
     }
   }
 
@@ -203,7 +209,7 @@ export default class GameScene extends Phaser.Scene {
 
   createRestartButton() {
     const { width, height } = this.scale;
-    const button = this.add.text(width * 0.5, height * 0.6, 'Play', {
+    const button = this.add.text(width * 0.5, height * 0.8, 'Restart', {
       fontFamily: 'Teko',
       stroke: '#000',
       strokeThickness: 4,
