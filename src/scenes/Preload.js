@@ -23,6 +23,7 @@ import {
   PIPE,
   GAME_OVER,
   MESSAGE,
+  GAME_SCENE_KEY,
 } from './shared.js';
 
 export default class PreloadScene extends Phaser.Scene {
@@ -31,6 +32,9 @@ export default class PreloadScene extends Phaser.Scene {
   }
 
   preload() {
+    const { width, height } = this.scale;
+    const loadingText = this.add.text(width * 0.5, height * 0.5, 'Loading...', { fontSize: '25px' }).setOrigin(0.5);
+
     this.load.image(GROUND, Base);
     this.load.image(BACKGROUND, Background);
     this.load.image(PIPE, Pipe);
@@ -48,5 +52,11 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image('8', Eight);
     this.load.image('9', Nine);
     this.load.webfont('Teko', 'https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Teko:wght@600;700&display=swap');
+
+    this.load.on('progress', (progress) => {
+      const percent = progress * 100;
+      loadingText.setText(`Loading... ${Math.round(percent)}%`);
+    });
+    this.load.on('complete', () => this.scene.start(GAME_SCENE_KEY));
   }
 }
