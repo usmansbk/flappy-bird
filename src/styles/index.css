@@ -30,7 +30,9 @@ a {
 
 .app-bar {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .logo {
@@ -39,7 +41,6 @@ a {
 
 .nav-brand-group {
   flex-grow: 1;
-  margin-left: 20px;
 }
 
 .caption {
@@ -53,7 +54,6 @@ a {
 }
 
 .sections {
-  margin: 48px 0;
   display: flex;
   flex-direction: column;
   gap: 40px;
@@ -68,8 +68,21 @@ a {
   cursor: pointer;
 }
 
-.row {
+.content {
+  margin: 48px 0;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   gap: 20px;
+}
+
+@media screen and (min-width: 992px) {
+  .app-bar {
+    align-items: center;
+    flex-direction: row;
+  }
+
+  .content {
+    flex-direction: row;
+  }
 }
