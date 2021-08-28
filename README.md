@@ -53,6 +53,10 @@ npm run build
 npm run lint 
 ```
 
+### Troubleshoot
+
+- Stuck in Loading? Update your Internet Download Manager extension.
+
 ## Authors
 
 👤 **Babakolo Usman Suleiman**
