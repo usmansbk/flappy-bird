@@ -71,7 +71,7 @@ a {
 .content {
   margin: 48px 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   justify-content: space-between;
   gap: 20px;
 }
