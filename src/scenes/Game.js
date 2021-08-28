@@ -338,6 +338,7 @@ export default class GameScene extends Phaser.Scene {
   updateScoreText() {
     this.scoreText.clear(true, true);
     this.scoreText = this.createScoreText();
+    this.pointSound.play();
   }
 
   updateScore(pipeMiddle, currentPipe) {
@@ -346,7 +347,6 @@ export default class GameScene extends Phaser.Scene {
       this.score += 1;
       this.lastRecordedPipe = currentPipe;
       this.updateScoreText();
-      this.pointSound.play();
     }
   }
 

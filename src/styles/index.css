@@ -77,8 +77,17 @@ a {
 }
 
 .game-play {
+  display: flex;
+  flex-direction: column;
+}
+
+.screenshot {
   width: 300px;
   border: solid 2px #fff;
+}
+
+.caption-2 {
+  font-size: 18px;
 }
 
 .profile-card {
