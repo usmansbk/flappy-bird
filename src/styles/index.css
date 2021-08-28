@@ -76,6 +76,10 @@ a {
   gap: 20px;
 }
 
+.game-play {
+  width: 300px;
+}
+
 @media screen and (min-width: 992px) {
   .app-bar {
     align-items: center;
