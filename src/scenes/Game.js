@@ -5,9 +5,14 @@ import {
   BACKGROUND,
   BIRD,
   PIPE,
-  GAME_OVER,
-  MESSAGE,
+  GAME_OVER_MESSAGE,
+  READY_MESSAGE,
   PRIMARY_COLOR,
+  POINT_SOUND,
+  FLAP_SOUND,
+  SWOOSH_SOUND,
+  HIT_SOUND,
+  DIE_SOUND,
 } from './shared.js';
 
 const FLAP = 'flap';
@@ -47,6 +52,12 @@ export default class GameScene extends Phaser.Scene {
     this.scoreText = this.createScoreText();
     this.bestScoreText = this.createBestScoreText();
     this.restartButton = this.createRestartButton();
+
+    this.pointSound = this.sound.add(POINT_SOUND);
+    this.flapSound = this.sound.add(FLAP_SOUND);
+    this.swooshSound = this.sound.add(SWOOSH_SOUND);
+    this.hitSound = this.sound.add(HIT_SOUND);
+    this.dieSound = this.sound.add(DIE_SOUND);
 
     this.physics.add.existing(this.ground, true);
     this.physics.add.collider(this.player, this.ground, this.setGameOver, null, this);
@@ -109,6 +120,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   setReady() {
+    this.swooshSound.play();
     this.gameoverMessage.visible = false;
     this.bestScoreText.visible = false;
     this.restartButton.visible = false;
@@ -124,14 +136,17 @@ export default class GameScene extends Phaser.Scene {
   }
 
   setGameOver() {
-    this.gameoverMessage.visible = true;
-    this.bestScoreText.visible = true;
-    this.restartButton.visible = true;
-    this.player.anims.stop();
-    this.state = GAME_OVER_STATE;
-    const bestScore = localStorage.getItem(BEST_SCORE_KEY) || 0;
-    localStorage.setItem(BEST_SCORE_KEY, Math.max(this.score, bestScore));
-    this.bestScoreText.setText(`High Score : ${bestScore}`);
+    if (this.state !== GAME_OVER_STATE) {
+      this.gameoverMessage.visible = true;
+      this.bestScoreText.visible = true;
+      this.restartButton.visible = true;
+      this.hitSound.play();
+      this.player.anims.stop();
+      this.state = GAME_OVER_STATE;
+      const bestScore = localStorage.getItem(BEST_SCORE_KEY) || 0;
+      localStorage.setItem(BEST_SCORE_KEY, Math.max(this.score, bestScore));
+      this.bestScoreText.setText(`High Score : ${bestScore}`);
+    }
   }
 
   restart() {
@@ -149,6 +164,7 @@ export default class GameScene extends Phaser.Scene {
     this.player.setVelocityY(BIRD_VELOCITY);
     this.player.anims.play(FLAP, true);
     this.player.angle = -ELEVATION_ANGLE;
+    this.flapSound.play();
   }
 
   fall() {
@@ -206,13 +222,13 @@ export default class GameScene extends Phaser.Scene {
   createReadyMessage() {
     const { width, height } = this.scale;
 
-    return this.add.image(width * 0.5, height * 0.4, MESSAGE);
+    return this.add.image(width * 0.5, height * 0.4, READY_MESSAGE);
   }
 
   createGameOverMessage() {
     const { width, height } = this.scale;
 
-    return this.add.image(width * 0.5, height * 0.4, GAME_OVER);
+    return this.add.image(width * 0.5, height * 0.4, GAME_OVER_MESSAGE);
   }
 
   createScoreText() {
@@ -311,6 +327,7 @@ export default class GameScene extends Phaser.Scene {
       this.score += 1;
       this.lastRecordedPipe = currentPipe;
       this.updateScoreText();
+      this.pointSound.play();
     }
   }
 
