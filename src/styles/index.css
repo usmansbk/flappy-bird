@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400&family=Press+Start+2P&family=Teko:wght@400;500;600;700&display=swap");
+
 * {
   margin: 0;
   padding: 0;
@@ -33,14 +34,13 @@ a {
 }
 
 .logo {
-  height: 62px; 
+  height: 62px;
 }
 
 .nav-brand-group {
   flex-grow: 1;
   margin-left: 20px;
 }
-
 
 .caption {
   font-size: 14px;
