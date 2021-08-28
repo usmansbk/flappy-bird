@@ -59,8 +59,9 @@ export default class GameScene extends Phaser.Scene {
     this.setReady();
   }
 
-  isTapped() {
-    return this.cursors.space.isDown || this.input.activePointer.primaryDown;
+  update() {
+    this.animate();
+    this.handleInputs();
   }
 
   animate() {
@@ -103,9 +104,8 @@ export default class GameScene extends Phaser.Scene {
     }
   }
 
-  update() {
-    this.animate();
-    this.handleInputs();
+  isTapped() {
+    return this.cursors.space.isDown || this.input.activePointer.primaryDown;
   }
 
   setReady() {
