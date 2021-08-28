@@ -51,12 +51,6 @@ export default class GameScene extends Phaser.Scene {
   }
 
   preload() {
-    const { width, height } = this.scale;
-    const x = width * 0.5;
-    const y = height * 0.5;
-
-    this.add.text(x, y, 'Loading...', { fontSize: '32px', color: PRIMARY_COLOR }).setOrigin(0.5);
-
     this.load.image(GROUND, Base);
     this.load.image(BACKGROUND, Background);
     this.load.image(PIPE, Pipe);
@@ -212,7 +206,7 @@ export default class GameScene extends Phaser.Scene {
       fontFamily: 'Teko',
       stroke: '#000',
       strokeThickness: 4,
-      fontSize: 25,
+      fontSize: '25px',
       backgroundColor: PRIMARY_COLOR,
       padding: 8,
       color: '#fff',
@@ -277,7 +271,7 @@ export default class GameScene extends Phaser.Scene {
     const { width, height } = this.scale;
     const score = this.add.text(width * 0.5, height * 0.5, '', {
       fontFamily: 'Teko',
-      fontSize: 25,
+      fontSize: '25px',
       stroke: '#000',
       strokeThickness: 4,
     }).setOrigin(0.5);
