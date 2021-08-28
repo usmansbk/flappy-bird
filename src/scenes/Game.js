@@ -9,6 +9,7 @@ import {
   MESSAGE,
   PRIMARY_COLOR,
   POINT_SOUND,
+  FLAP_SOUND,
 } from './shared.js';
 
 const FLAP = 'flap';
@@ -50,6 +51,7 @@ export default class GameScene extends Phaser.Scene {
     this.restartButton = this.createRestartButton();
 
     this.pointSound = this.sound.add(POINT_SOUND);
+    this.flapSound = this.sound.add(FLAP_SOUND);
 
     this.physics.add.existing(this.ground, true);
     this.physics.add.collider(this.player, this.ground, this.setGameOver, null, this);
@@ -152,6 +154,7 @@ export default class GameScene extends Phaser.Scene {
     this.player.setVelocityY(BIRD_VELOCITY);
     this.player.anims.play(FLAP, true);
     this.player.angle = -ELEVATION_ANGLE;
+    this.flapSound.play();
   }
 
   fall() {
