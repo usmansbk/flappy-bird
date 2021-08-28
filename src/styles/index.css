@@ -80,6 +80,16 @@ a {
   width: 300px;
 }
 
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.profile-pic {
+  width: 150px;
+}
+
 @media screen and (min-width: 992px) {
   .app-bar {
     align-items: center;
@@ -87,6 +97,10 @@ a {
   }
 
   .content {
+    flex-direction: row;
+  }
+
+  .profile-card {
     flex-direction: row;
   }
 }
