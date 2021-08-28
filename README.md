@@ -58,7 +58,7 @@ npm run lint
 👤 **Babakolo Usman Suleiman**
 
 - GitHub: [@usmansbk](https://github.com/usmansbk)
-- LinkedIn: [LinkedIn](https://www.linkedin.com/in/usman-suleiman-82b444140/)
+- LinkedIn: [LinkedIn](https://www.linkedin.com/in/usmansbk/)
 
 ## 🤝 Contributing
 
