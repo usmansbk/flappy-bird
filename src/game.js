@@ -1,7 +1,6 @@
 import Phaser from 'phaser';
 import { WebFontLoaderPlugin } from 'phaser3-webfont-loader';
 import GameScene from './scenes/Game.js';
-import PreloadScene from './scenes/Preload.js';
 import './styles/game.css';
 
 const config = {
@@ -16,7 +15,7 @@ const config = {
       gravity: { y: 200 },
     },
   },
-  scene: [PreloadScene, GameScene],
+  scene: GameScene,
   plugins: {
     global: [{
       key: 'WebFontLoader',
