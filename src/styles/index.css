@@ -78,7 +78,7 @@ a {
 
 .game-play {
   width: 300px;
-  border: solid 2px #fff
+  border: solid 2px #fff;
 }
 
 .profile-card {
@@ -89,7 +89,7 @@ a {
 
 .profile-pic {
   width: 150px;
-  border: solid 2px #fff
+  border: solid 2px #fff;
 }
 
 @media screen and (min-width: 992px) {

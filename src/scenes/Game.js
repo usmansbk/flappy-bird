@@ -61,8 +61,20 @@ export default class GameScene extends Phaser.Scene {
 
     this.physics.add.existing(this.ground, true);
     this.physics.add.collider(this.player, this.ground, this.setGameOver, null, this);
-    this.physics.add.collider(this.player, this.pipes.topPipes, this.setGameOver, null, this);
-    this.physics.add.collider(this.player, this.pipes.bottomPipes, this.setGameOver, null, this);
+    this.physics.add.collider(
+      this.player,
+      this.pipes.topPipes,
+      this.setGameOver,
+      this.handleFall,
+      this,
+    );
+    this.physics.add.collider(
+      this.player,
+      this.pipes.bottomPipes,
+      this.setGameOver,
+      this.handleFall,
+      this,
+    );
     this.restartButton.on(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this.restart, this);
 
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -147,6 +159,13 @@ export default class GameScene extends Phaser.Scene {
       localStorage.setItem(BEST_SCORE_KEY, Math.max(this.score, bestScore));
       this.bestScoreText.setText(`High Score : ${bestScore}`);
     }
+  }
+
+  handleFall() {
+    if (this.state !== GAME_OVER_STATE) {
+      this.dieSound.play();
+    }
+    return true;
   }
 
   restart() {
