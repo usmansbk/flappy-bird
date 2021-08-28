@@ -6,6 +6,7 @@ export const BIRD = 'bird';
 export const PIPE = 'pipe';
 export const READY_MESSAGE = 'message';
 export const GAME_OVER_MESSAGE = 'gameover';
+export const START_BUTTON = 'start-button';
 export const POINT_SOUND = 'point';
 export const FLAP_SOUND = 'flap';
 export const SWOOSH_SOUND = 'swoosh';

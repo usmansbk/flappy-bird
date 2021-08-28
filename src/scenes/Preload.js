@@ -15,6 +15,7 @@ import Six from '../assets/sprites/6.png';
 import Seven from '../assets/sprites/7.png';
 import Eight from '../assets/sprites/8.png';
 import Nine from '../assets/sprites/9.png';
+import StartButton from '../assets/sprites/start.png';
 import PointWav from '../assets/audio/point.wav';
 import PointOgg from '../assets/audio/point.ogg';
 import FlapWav from '../assets/audio/wing.wav';
@@ -39,6 +40,7 @@ import {
   SWOOSH_SOUND,
   HIT_SOUND,
   DIE_SOUND,
+  START_BUTTON,
 } from './shared.js';
 
 export default class PreloadScene extends Phaser.Scene {
@@ -55,6 +57,7 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image(PIPE, Pipe);
     this.load.image(READY_MESSAGE, Message);
     this.load.image(GAME_OVER_MESSAGE, GameOver);
+    this.load.image(START_BUTTON, StartButton);
     this.load.spritesheet(BIRD, Bird, { frameWidth: 34, frameHeight: 24 });
     this.load.image('0', Zero);
     this.load.image('1', One);

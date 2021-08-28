@@ -7,12 +7,12 @@ import {
   PIPE,
   GAME_OVER_MESSAGE,
   READY_MESSAGE,
-  PRIMARY_COLOR,
   POINT_SOUND,
   FLAP_SOUND,
   SWOOSH_SOUND,
   HIT_SOUND,
   DIE_SOUND,
+  START_BUTTON,
 } from './shared.js';
 
 const FLAP = 'flap';
@@ -224,15 +224,7 @@ export default class GameScene extends Phaser.Scene {
 
   createRestartButton() {
     const { width, height } = this.scale;
-    const button = this.add.text(width * 0.5, height * 0.8, 'Restart', {
-      fontFamily: 'Teko',
-      stroke: '#000',
-      strokeThickness: 4,
-      fontSize: '25px',
-      backgroundColor: PRIMARY_COLOR,
-      padding: 8,
-      color: '#fff',
-    }).setOrigin(0.5).setInteractive();
+    const button = this.add.image(width * 0.5, height * 0.8, START_BUTTON).setInteractive();
 
     return button;
   }
