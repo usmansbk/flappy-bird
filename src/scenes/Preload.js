@@ -31,8 +31,8 @@ import {
   BACKGROUND,
   BIRD,
   PIPE,
-  GAME_OVER,
-  MESSAGE,
+  GAME_OVER_MESSAGE,
+  READY_MESSAGE,
   GAME_SCENE_KEY,
   POINT_SOUND,
   FLAP_SOUND,
@@ -53,8 +53,8 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image(GROUND, Base);
     this.load.image(BACKGROUND, Background);
     this.load.image(PIPE, Pipe);
-    this.load.image(MESSAGE, Message);
-    this.load.image(GAME_OVER, GameOver);
+    this.load.image(READY_MESSAGE, Message);
+    this.load.image(GAME_OVER_MESSAGE, GameOver);
     this.load.spritesheet(BIRD, Bird, { frameWidth: 34, frameHeight: 24 });
     this.load.image('0', Zero);
     this.load.image('1', One);

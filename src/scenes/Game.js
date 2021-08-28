@@ -5,8 +5,8 @@ import {
   BACKGROUND,
   BIRD,
   PIPE,
-  GAME_OVER,
-  MESSAGE,
+  GAME_OVER_MESSAGE,
+  READY_MESSAGE,
   PRIMARY_COLOR,
   POINT_SOUND,
   FLAP_SOUND,
@@ -222,13 +222,13 @@ export default class GameScene extends Phaser.Scene {
   createReadyMessage() {
     const { width, height } = this.scale;
 
-    return this.add.image(width * 0.5, height * 0.4, MESSAGE);
+    return this.add.image(width * 0.5, height * 0.4, READY_MESSAGE);
   }
 
   createGameOverMessage() {
     const { width, height } = this.scale;
 
-    return this.add.image(width * 0.5, height * 0.4, GAME_OVER);
+    return this.add.image(width * 0.5, height * 0.4, GAME_OVER_MESSAGE);
   }
 
   createScoreText() {
