@@ -157,9 +157,12 @@ export default class GameScene extends Phaser.Scene {
       this.restartButton.visible = true;
       this.hitSound.play();
       this.player.anims.stop();
-      const bestScore = localStorage.getItem(BEST_SCORE_KEY) || 0;
+
+      const currentBest = localStorage.getItem(BEST_SCORE_KEY) || 0;
+      const bestScore = Math.max(currentBest, this.score);
       localStorage.setItem(BEST_SCORE_KEY, Math.max(this.score, bestScore));
-      this.bestScoreText.setText(`High Score : ${bestScore}`);
+      this.bestScoreText.setText(`High Score : ${currentBest}`);
+
       this.slideButton();
     }
   }
