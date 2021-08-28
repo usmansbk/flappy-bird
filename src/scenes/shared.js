@@ -8,4 +8,5 @@ export const MESSAGE = 'message';
 export const GAME_OVER = 'gameover';
 export const POINT_SOUND = 'point';
 export const FLAP_SOUND = 'flap';
+export const SWOOSH_SOUND = 'swoosh';
 export const PRIMARY_COLOR = '#e06119';

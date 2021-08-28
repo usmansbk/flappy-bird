@@ -19,6 +19,8 @@ import PointWav from '../assets/audio/point.wav';
 import PointOgg from '../assets/audio/point.ogg';
 import FlapWav from '../assets/audio/wing.wav';
 import FlapOgg from '../assets/audio/wing.ogg';
+import SwooshWav from '../assets/audio/swoosh.wav';
+import SwooshOgg from '../assets/audio/swoosh.ogg';
 import {
   PRELOAD_SCENE_KEY,
   GROUND,
@@ -30,6 +32,7 @@ import {
   GAME_SCENE_KEY,
   POINT_SOUND,
   FLAP_SOUND,
+  SWOOSH_SOUND,
 } from './shared.js';
 
 export default class PreloadScene extends Phaser.Scene {
@@ -59,6 +62,7 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image('9', Nine);
     this.load.audio(POINT_SOUND, [PointOgg, PointWav]);
     this.load.audio(FLAP_SOUND, [FlapOgg, FlapWav]);
+    this.load.audio(SWOOSH_SOUND, [SwooshOgg, SwooshWav]);
     this.load.webfont('Teko', 'https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Teko:wght@600;700&display=swap');
 
     this.load.on('progress', (progress) => {

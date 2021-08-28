@@ -10,6 +10,7 @@ import {
   PRIMARY_COLOR,
   POINT_SOUND,
   FLAP_SOUND,
+  SWOOSH_SOUND,
 } from './shared.js';
 
 const FLAP = 'flap';
@@ -52,6 +53,7 @@ export default class GameScene extends Phaser.Scene {
 
     this.pointSound = this.sound.add(POINT_SOUND);
     this.flapSound = this.sound.add(FLAP_SOUND);
+    this.swooshSound = this.sound.add(SWOOSH_SOUND);
 
     this.physics.add.existing(this.ground, true);
     this.physics.add.collider(this.player, this.ground, this.setGameOver, null, this);
@@ -114,6 +116,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   setReady() {
+    this.swooshSound.play();
     this.gameoverMessage.visible = false;
     this.bestScoreText.visible = false;
     this.restartButton.visible = false;
