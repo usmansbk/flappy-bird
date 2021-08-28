@@ -1,12 +1,15 @@
 import Phaser from 'phaser';
+import {
+  GROUND,
+  BACKGROUND,
+  PIPE,
+  MESSAGE,
+  GAME_OVER,
+  BIRD,
+  GAME_SCENE_NAME,
+  PRIMARY_COLOR,
+} from './shared.js';
 
-const SCENE_NAME = 'game-scene';
-const GROUND = 'ground';
-const BACKGROUND = 'background';
-const BIRD = 'bird';
-const PIPE = 'pipe';
-const MESSAGE = 'message';
-const GAME_OVER = 'gameover';
 const FLAP = 'flap';
 const PIPE_HEIGHT = 320;
 const PIPE_GAP_HEIGHT = 120;
@@ -26,11 +29,10 @@ const PLAYING_STATE = 'playing-state';
 const GAME_OVER_STATE = 'gameover-state';
 const DIGIT_WIDTH = 24;
 const BEST_SCORE_KEY = 'best-score';
-const PRIMARY_COLOR = '#e06119';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
-    super(SCENE_NAME);
+    super(GAME_SCENE_NAME);
     this.score = 0;
   }
 

@@ -15,18 +15,20 @@ import Six from '../assets/sprites/6.png';
 import Seven from '../assets/sprites/7.png';
 import Eight from '../assets/sprites/8.png';
 import Nine from '../assets/sprites/9.png';
-
-const SCENE_NAME = 'preload';
-const GROUND = 'ground';
-const BACKGROUND = 'background';
-const BIRD = 'bird';
-const PIPE = 'pipe';
-const MESSAGE = 'message';
-const GAME_OVER = 'gameover';
+import {
+  GROUND,
+  BACKGROUND,
+  PIPE,
+  MESSAGE,
+  GAME_OVER,
+  BIRD,
+  PRELOAD_SCENE_NAME,
+  PRIMARY_COLOR,
+} from './shared.js';
 
 export default class PreloadScene extends Phaser.Scene {
   constructor() {
-    super(SCENE_NAME);
+    super(PRELOAD_SCENE_NAME);
   }
 
   preload() {
@@ -34,7 +36,7 @@ export default class PreloadScene extends Phaser.Scene {
     const x = width * 0.5;
     const y = height * 0.5;
 
-    this.add.text(x, y, 'Loading...', { fontSize: '32px', color: '#e06119' }).setOrigin(0.5);
+    this.add.text(x, y, 'Loading...', { fontSize: '32px', color: PRIMARY_COLOR }).setOrigin(0.5);
 
     this.load.image(GROUND, Base);
     this.load.image(BACKGROUND, Background);
