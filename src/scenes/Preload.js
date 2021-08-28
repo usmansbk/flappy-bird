@@ -24,6 +24,7 @@ import {
   BIRD,
   PRELOAD_SCENE_NAME,
   PRIMARY_COLOR,
+  GAME_SCENE_NAME,
 } from './shared.js';
 
 export default class PreloadScene extends Phaser.Scene {
@@ -56,6 +57,6 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image('9', Nine);
     this.load.webfont('Teko', 'https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Teko:wght@600;700&display=swap');
 
-    this.load.on('complete', () => this.scene.start('game-scene'));
+    this.load.on('complete', () => this.scene.start(GAME_SCENE_NAME));
   }
 }
