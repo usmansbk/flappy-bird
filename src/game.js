@@ -8,13 +8,14 @@ const config = {
   autoCenter: true,
   width: 320,
   height: 600,
+  backgroundColor: '#1e272e',
   physics: {
     default: 'arcade',
     arcade: {
       gravity: { y: 200 },
     },
   },
-  scene: [GameScene],
+  scene: GameScene,
   plugins: {
     global: [{
       key: 'WebFontLoader',

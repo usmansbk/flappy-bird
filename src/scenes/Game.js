@@ -16,14 +16,15 @@ import Seven from '../assets/sprites/7.png';
 import Eight from '../assets/sprites/8.png';
 import Nine from '../assets/sprites/9.png';
 
-const SCENE_NAME = 'game-scene';
+const GAME_SCENE_NAME = 'game-scene';
 const GROUND = 'ground';
 const BACKGROUND = 'background';
 const BIRD = 'bird';
-const PIPE = 'bottom-pipe';
-const FLAP = 'flap';
+const PIPE = 'pipe';
 const MESSAGE = 'message';
 const GAME_OVER = 'gameover';
+const PRIMARY_COLOR = '#e06119';
+const FLAP = 'flap';
 const PIPE_HEIGHT = 320;
 const PIPE_GAP_HEIGHT = 120;
 const PIPE_GAP_LENGTH = 180;
@@ -42,11 +43,10 @@ const PLAYING_STATE = 'playing-state';
 const GAME_OVER_STATE = 'gameover-state';
 const DIGIT_WIDTH = 24;
 const BEST_SCORE_KEY = 'best-score';
-const PRIMARY_COLOR = '#e06119';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
-    super(SCENE_NAME);
+    super(GAME_SCENE_NAME);
     this.score = 0;
   }
 
@@ -206,7 +206,7 @@ export default class GameScene extends Phaser.Scene {
       fontFamily: 'Teko',
       stroke: '#000',
       strokeThickness: 4,
-      fontSize: 25,
+      fontSize: '25px',
       backgroundColor: PRIMARY_COLOR,
       padding: 8,
       color: '#fff',
@@ -271,7 +271,7 @@ export default class GameScene extends Phaser.Scene {
     const { width, height } = this.scale;
     const score = this.add.text(width * 0.5, height * 0.5, '', {
       fontFamily: 'Teko',
-      fontSize: 25,
+      fontSize: '25px',
       stroke: '#000',
       strokeThickness: 4,
     }).setOrigin(0.5);
