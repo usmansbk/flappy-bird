@@ -11,6 +11,8 @@ import {
   POINT_SOUND,
   FLAP_SOUND,
   SWOOSH_SOUND,
+  HIT_SOUND,
+  DIE_SOUND,
 } from './shared.js';
 
 const FLAP = 'flap';
@@ -54,6 +56,8 @@ export default class GameScene extends Phaser.Scene {
     this.pointSound = this.sound.add(POINT_SOUND);
     this.flapSound = this.sound.add(FLAP_SOUND);
     this.swooshSound = this.sound.add(SWOOSH_SOUND);
+    this.hitSound = this.sound.add(HIT_SOUND);
+    this.dieSound = this.sound.add(DIE_SOUND);
 
     this.physics.add.existing(this.ground, true);
     this.physics.add.collider(this.player, this.ground, this.setGameOver, null, this);
@@ -132,14 +136,17 @@ export default class GameScene extends Phaser.Scene {
   }
 
   setGameOver() {
-    this.gameoverMessage.visible = true;
-    this.bestScoreText.visible = true;
-    this.restartButton.visible = true;
-    this.player.anims.stop();
-    this.state = GAME_OVER_STATE;
-    const bestScore = localStorage.getItem(BEST_SCORE_KEY) || 0;
-    localStorage.setItem(BEST_SCORE_KEY, Math.max(this.score, bestScore));
-    this.bestScoreText.setText(`High Score : ${bestScore}`);
+    if (this.state !== GAME_OVER_STATE) {
+      this.gameoverMessage.visible = true;
+      this.bestScoreText.visible = true;
+      this.restartButton.visible = true;
+      this.hitSound.play();
+      this.player.anims.stop();
+      this.state = GAME_OVER_STATE;
+      const bestScore = localStorage.getItem(BEST_SCORE_KEY) || 0;
+      localStorage.setItem(BEST_SCORE_KEY, Math.max(this.score, bestScore));
+      this.bestScoreText.setText(`High Score : ${bestScore}`);
+    }
   }
 
   restart() {

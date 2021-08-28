@@ -21,6 +21,10 @@ import FlapWav from '../assets/audio/wing.wav';
 import FlapOgg from '../assets/audio/wing.ogg';
 import SwooshWav from '../assets/audio/swoosh.wav';
 import SwooshOgg from '../assets/audio/swoosh.ogg';
+import HitSoundWav from '../assets/audio/hit.wav';
+import HitSoundOgg from '../assets/audio/hit.ogg';
+import DieSoundWav from '../assets/audio/die.wav';
+import DieSoundOgg from '../assets/audio/die.ogg';
 import {
   PRELOAD_SCENE_KEY,
   GROUND,
@@ -33,6 +37,8 @@ import {
   POINT_SOUND,
   FLAP_SOUND,
   SWOOSH_SOUND,
+  HIT_SOUND,
+  DIE_SOUND,
 } from './shared.js';
 
 export default class PreloadScene extends Phaser.Scene {
@@ -63,6 +69,8 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.audio(POINT_SOUND, [PointOgg, PointWav]);
     this.load.audio(FLAP_SOUND, [FlapOgg, FlapWav]);
     this.load.audio(SWOOSH_SOUND, [SwooshOgg, SwooshWav]);
+    this.load.audio(HIT_SOUND, [HitSoundOgg, HitSoundWav]);
+    this.load.audio(DIE_SOUND, [DieSoundOgg, DieSoundWav]);
     this.load.webfont('Teko', 'https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Teko:wght@600;700&display=swap');
 
     this.load.on('progress', (progress) => {

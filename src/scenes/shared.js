@@ -9,4 +9,6 @@ export const GAME_OVER = 'gameover';
 export const POINT_SOUND = 'point';
 export const FLAP_SOUND = 'flap';
 export const SWOOSH_SOUND = 'swoosh';
+export const HIT_SOUND = 'hit';
+export const DIE_SOUND = 'die';
 export const PRIMARY_COLOR = '#e06119';
