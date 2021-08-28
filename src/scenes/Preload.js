@@ -15,6 +15,8 @@ import Six from '../assets/sprites/6.png';
 import Seven from '../assets/sprites/7.png';
 import Eight from '../assets/sprites/8.png';
 import Nine from '../assets/sprites/9.png';
+import PointWav from '../assets/audio/point.wav';
+import PointOgg from '../assets/audio/point.ogg';
 import {
   PRELOAD_SCENE_KEY,
   GROUND,
@@ -24,6 +26,7 @@ import {
   GAME_OVER,
   MESSAGE,
   GAME_SCENE_KEY,
+  POINT_SOUND,
 } from './shared.js';
 
 export default class PreloadScene extends Phaser.Scene {
@@ -51,6 +54,7 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image('7', Seven);
     this.load.image('8', Eight);
     this.load.image('9', Nine);
+    this.load.audio(POINT_SOUND, [PointOgg, PointWav]);
     this.load.webfont('Teko', 'https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Teko:wght@600;700&display=swap');
 
     this.load.on('progress', (progress) => {

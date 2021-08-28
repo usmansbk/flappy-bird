@@ -8,6 +8,7 @@ import {
   GAME_OVER,
   MESSAGE,
   PRIMARY_COLOR,
+  POINT_SOUND,
 } from './shared.js';
 
 const FLAP = 'flap';
@@ -47,6 +48,8 @@ export default class GameScene extends Phaser.Scene {
     this.scoreText = this.createScoreText();
     this.bestScoreText = this.createBestScoreText();
     this.restartButton = this.createRestartButton();
+
+    this.pointSound = this.sound.add(POINT_SOUND);
 
     this.physics.add.existing(this.ground, true);
     this.physics.add.collider(this.player, this.ground, this.setGameOver, null, this);
@@ -311,6 +314,7 @@ export default class GameScene extends Phaser.Scene {
       this.score += 1;
       this.lastRecordedPipe = currentPipe;
       this.updateScoreText();
+      this.pointSound.play();
     }
   }
 

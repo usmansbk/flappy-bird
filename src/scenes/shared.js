@@ -6,4 +6,5 @@ export const BIRD = 'bird';
 export const PIPE = 'pipe';
 export const MESSAGE = 'message';
 export const GAME_OVER = 'gameover';
+export const POINT_SOUND = 'point';
 export const PRIMARY_COLOR = '#e06119';
