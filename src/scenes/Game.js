@@ -51,11 +51,11 @@ export default class GameScene extends Phaser.Scene {
   }
 
   preload() {
-    // const { width, height } = this.scale;
-    // const x = width * 0.5;
-    // const y = height * 0.5;
+    const { width, height } = this.scale;
+    const x = width * 0.5;
+    const y = height * 0.5;
 
-    // this.add.text(x, y, 'Loading...', { fontSize: '32px', color: PRIMARY_COLOR }).setOrigin(0.5);
+    this.add.text(x, y, 'Loading...', { fontSize: '32px', color: PRIMARY_COLOR }).setOrigin(0.5);
 
     this.load.image(GROUND, Base);
     this.load.image(BACKGROUND, Background);
