@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import { WebFontLoaderPlugin } from 'phaser3-webfont-loader';
 import GameScene from './scenes/Game.js';
 import PreloadScene from './scenes/Preload.js';
-import './styles/game.css';
+import './game.css';
 
 const config = {
   type: Phaser.AUTO,

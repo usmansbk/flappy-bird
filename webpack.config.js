@@ -5,7 +5,7 @@ module.exports = {
   mode: 'production',
   entry: {
     main: './src/index.js',
-    game: './src/game.js',
+    game: './src/game/game.js',
   },
   output: {
     filename: '[name].bundle.js',
@@ -35,7 +35,7 @@ module.exports = {
       favicon: './logo.png',
     }),
     new HtmlWebpackPlugin({
-      template: './src/game.html',
+      template: './src/game/game.html',
       chunks: ['game'],
       filename: 'game.html',
       favicon: './logo.png',
