@@ -139,11 +139,11 @@ export default class GameScene extends Phaser.Scene {
     this.player.body.allowGravity = false;
     this.player.anims.play(FLAP, true);
     this.state = READY_STATE;
-    this.playerIdle = this.idlePlayer();
+    this.birdFlying = this.flyBirdWhileWaitingForPlayer();
   }
 
   setPlaying() {
-    this.playerIdle.stop();
+    this.birdFlying.stop();
     this.readyMessage.visible = false;
     this.player.body.allowGravity = true;
     this.state = PLAYING_STATE;
@@ -163,11 +163,11 @@ export default class GameScene extends Phaser.Scene {
       localStorage.setItem(BEST_SCORE_KEY, Math.max(this.score, bestScore));
       this.bestScoreText.setText(`High Score : ${currentBest}`);
 
-      this.slideButton();
+      this.slideStartButton();
     }
   }
 
-  idlePlayer() {
+  flyBirdWhileWaitingForPlayer() {
     return this.tweens.add({
       targets: this.player,
       y: this.player.y + 5,
@@ -177,7 +177,7 @@ export default class GameScene extends Phaser.Scene {
     });
   }
 
-  slideButton() {
+  slideStartButton() {
     this.tweens.add({
       targets: this.restartButton,
       y: this.scale.height * 0.6,
