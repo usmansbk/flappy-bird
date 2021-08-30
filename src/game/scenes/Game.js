@@ -125,7 +125,7 @@ export default class GameScene extends Phaser.Scene {
           break;
       }
     }
-    if (this.state === GAME_OVER_STATE && this.cursors.space.isDown) {
+    if (this.state === GAME_OVER_STATE && this.cursors.space.isDown && this.isAllowedToRestart) {
       this.restart();
     }
     if (this.isReleased() && this.isPlayerFlapping) {
@@ -166,6 +166,7 @@ export default class GameScene extends Phaser.Scene {
       this.gameoverMessage.visible = true;
       this.bestScoreText.visible = true;
       this.restartButton.visible = true;
+      this.isAllowedToRestart = false;
       this.hitSound.play();
       this.player.anims.stop();
 
@@ -193,6 +194,9 @@ export default class GameScene extends Phaser.Scene {
       targets: this.restartButton,
       y: this.scale.height * 0.6,
       duration: 500,
+      onComplete: () => {
+        this.isAllowedToRestart = true;
+      },
     });
   }
 
