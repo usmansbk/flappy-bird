@@ -17,13 +17,13 @@ import {
 
 const FLAP = 'flap';
 const PIPE_HEIGHT = 320;
-const PIPE_GAP_HEIGHT = 120;
+const PIPE_GAP_HEIGHT = 100;
 const PIPE_GAP_LENGTH = 180;
 const PIPE_PAIRS = 3;
 const GROUND_HEIGHT = 112;
 const FRAME_RATE = 10;
 const BIRD_GRAVITY = 1000;
-const BIRD_VELOCITY = -340;
+const BIRD_VELOCITY = -360;
 const GAME_SPEED = 2;
 const ELEVATION_ANGLE = 25;
 const FALL_ANGLE = 90;
@@ -116,7 +116,10 @@ export default class GameScene extends Phaser.Scene {
           this.setPlaying();
           break;
         case PLAYING_STATE:
-          this.flap();
+          if (!this.isPlayerFlapping) {
+            this.isPlayerFlapping = true;
+            this.flap();
+          }
           break;
         default:
           break;
@@ -125,10 +128,17 @@ export default class GameScene extends Phaser.Scene {
     if (this.state === GAME_OVER_STATE && this.cursors.space.isDown) {
       this.restart();
     }
+    if (this.isReleased() && this.isPlayerFlapping) {
+      this.isPlayerFlapping = false;
+    }
   }
 
   isTapped() {
     return this.cursors.space.isDown || this.input.activePointer.primaryDown;
+  }
+
+  isReleased() {
+    return this.cursors.space.isUp && !this.input.activePointer.primaryDown;
   }
 
   setReady() {
@@ -140,6 +150,7 @@ export default class GameScene extends Phaser.Scene {
     this.player.anims.play(FLAP, true);
     this.state = READY_STATE;
     this.birdFlying = this.flyBirdWhileWaitingForPlayer();
+    this.isPlayerFlapping = false;
   }
 
   setPlaying() {
