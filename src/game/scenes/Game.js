@@ -116,7 +116,10 @@ export default class GameScene extends Phaser.Scene {
           this.setPlaying();
           break;
         case PLAYING_STATE:
-          this.flap();
+          if (this.canFlap) {
+            this.canFlap = false;
+            this.flap();
+          }
           break;
         default:
           break;
@@ -125,10 +128,17 @@ export default class GameScene extends Phaser.Scene {
     if (this.state === GAME_OVER_STATE && this.cursors.space.isDown) {
       this.restart();
     }
+    if (this.isReleased() && !this.canFlap) {
+      this.canFlap = true;
+    }
   }
 
   isTapped() {
     return this.cursors.space.isDown || this.input.activePointer.primaryDown;
+  }
+
+  isReleased() {
+    return this.cursors.space.isUp && !this.input.activePointer.primaryDown;
   }
 
   setReady() {
@@ -140,6 +150,7 @@ export default class GameScene extends Phaser.Scene {
     this.player.anims.play(FLAP, true);
     this.state = READY_STATE;
     this.birdFlying = this.flyBirdWhileWaitingForPlayer();
+    this.canFlap = true;
   }
 
   setPlaying() {
